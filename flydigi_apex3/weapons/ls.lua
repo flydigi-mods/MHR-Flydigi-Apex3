@@ -114,7 +114,7 @@ function weapon:get_status(manager)
     -- end
     
     local status = {
-        gauge = gauge_field:get_data(manager),
+        -- gauge = gauge_field:get_data(manager),
         gauge_level = gauge_lv_field:get_data(manager)
     }
     return status
@@ -134,6 +134,9 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
             utils.chat("防御失败")
             right = "PushBack"
         end
+    end
+    if not changed.action_id and self.current_state.action_id == shenweixuliwanchen then
+        return false
     end
     if new_state:with_weapon() then
         if changed.action_id then
@@ -163,7 +166,7 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
             end
         end
 
-        if 163 <= new_state.action_id and new_state.action_id <= 168 and new_state.gauge_level < current_state.gauge_level then
+        if 163 <= new_state.action_id and new_state.action_id <= 168 then
             -- 神威蓄力
             utils.chat("气刃消耗到"..new_state.gauge_level)
             if new_state.gauge_level == 3 then 
