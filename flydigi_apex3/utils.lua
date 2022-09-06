@@ -10,27 +10,9 @@ function utils.chat(text)
     if not setting.debug_window then return end
     if not ChatManager then ChatManager = sdk.get_managed_singleton("snow.gui.ChatManager") end
     if ChatManager then
-        ChatManager:call("reqAddChatInfomation", text, 0)
+        ChatManager:call("reqAddChatInfomation", "Apex3: "..text, 0)
     end
 end
-
-
-function utils.getPlayer()
-    if not PlayerManager then PlayerManager = sdk.get_managed_singleton("snow.player.PlayerManager") end
-    return PlayerManager:call("findMasterPlayer")
-end
-
-
-function utils.getCurrentWeaponInstanceAndName()
-    if not InputManager then InputManager = sdk.get_managed_singleton("snow.StmInputManager") end
-    local weapon = InputManager:get_field("_InGameInputDevice"):get_field("_pl_input"):get_field("RefPlayer")
-    if not weapon then
-        return 
-    end
-    local weaponName = weapon:get_type_definition():get_name()
-    return weapon, weaponName
-end
-
 
 function utils.get_default_controller_config()
     return {

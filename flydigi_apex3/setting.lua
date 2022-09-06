@@ -51,7 +51,10 @@ if modUI then
 			modUI.Label("Please update mod menu API.")
             return
         end
-        _, setting.enable = modUI.CheckBox("Enable", setting.enable, "Enable Flydigi Apex3 Adaptive Trigger")
+        modUI.Header("Flydigi Apex3 Controller")
+        _, setting.enable = modUI.CheckBox("Enable", setting.enable, "Enable Adaptive Trigger")
+        local debug_window = modUI.Button("Show Debug Window")
+        if debug_window then setting.debug_window = true end
     end)
 end
 

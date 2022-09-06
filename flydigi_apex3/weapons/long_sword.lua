@@ -11,10 +11,8 @@ hooks['snow.player.LongSword'] = "set_LongSwordGaugeLv"
 
 local BaseWeapon = require("flydigi_apex3/base_weapon")
 local utils = require('flydigi_apex3/utils')
-local c = require('flydigi_apex3/cache')
 local setting = require('flydigi_apex3/setting')
-
-local weapon = BaseWeapon:new(weapon_type, weapon_name, {sdk_weapon_type:get_method("update")})
+local BaseState = require('flydigi_apex3/base_state')
 
 local shenweinadao = 161 -- 神威纳刀
 local shenweizidongzhaojia = 173 -- 神威自动招架
@@ -31,25 +29,7 @@ local juhe = 155 -- 大居合
 local hit_action_bank_id = 1 -- 被击中时 action_bank_id = 1
 
 
-local State = {}
-
-function State:new(action_id, action_bank_id, status)
-    local newObj = {action_id = action_id, action_bank_id = action_bank_id, 
-    gauge_level = status and status.gauge_level or nil,
-    gauge = status and status.gauge or nil}            
-    self.__index = self
-    return setmetatable(newObj, self)
-end
-
-function State:with_weapon()
-    if self:is_nil() then return false end
-    return self.action_bank_id == 100
-end
-
-function State:is_hit()
-    if self:is_nil() then return false end
-    return self.action_bank_id == 1
-end
+local State = BaseState:new()
 
 function State:in_sacred_sheathe()
     -- 神威纳刀
@@ -75,34 +55,7 @@ function State:is_sheathe()
     return self:in_sacred_sheathe() or self:in_special_sheathe()
 end
 
-function State:changed(other)
-    local changed = false
-    local delta = {}
-    if self.action_id ~= other.action_id then
-        changed = true
-        delta['action_id'] = true
-    end
-    if self.action_bank_id ~= other.action_bank_id then
-        changed = true
-        delta['action_bank_id'] = true
-    end
-    if self.gauge_level ~= other.gauge_level then
-        changed = true
-        delta['gauge_level'] = true
-    end
-    if self.gauge ~= other.gauge then
-        changed = true
-        delta['gauge'] = true
-    end
-    if not changed then return false end
-    return delta
-end
-
-function State:is_nil()
-    return self.action_id == nil and self.action_bank_id == nil and self.gauge_level == nil and self.gauge == nil
-end
-
-local current_state = State:new()
+local weapon = BaseWeapon:new(weapon_type, weapon_name, {sdk_weapon_type:get_method("update")}, State)
 
 function weapon:get_status(manager)
     -- if this weapon has more than one hooks, use manager:get_type_definition():get_name() to determine which manager this is.
@@ -120,22 +73,16 @@ function weapon:get_status(manager)
     return status
 end
 
-function weapon:update_controller_config(config, action_id, action_bank_id, player)
-    local new_state = State:new(action_id, action_bank_id, self.status)
-    if current_state == nil or current_state:is_nil() then
-        current_state = new_state
-        return false
-    end
-    local changed = current_state:changed(new_state)
-    if not changed then return false end
+function weapon:get_controller_config(new_state, changed, player, config)
+    local left = setting.left_default
     local right = setting.right_default
     if changed.action_bank_id then
-        if current_state:is_sheathe() and new_state:is_hit() then
+        if self.current_state:is_sheathe() and new_state:is_hit() then
             utils.chat("防御失败")
             right = "PushBack"
         end
     end
-    if not changed.action_id and current_state.action_id == shenweixuliwanchen then
+    if not changed.action_id and self.current_state.action_id == shenweixuliwanchen then
         return false
     end
     if new_state:with_weapon() then
@@ -150,6 +97,10 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
             end
             if new_state.action_id == teshunadaowancheng then
                 utils.chat("特殊纳刀完成")
+                right = "VibHardHalf"
+            end
+            if new_state.action_id == shenweinadaozhaojia then
+                utils.chat("神威纳刀招架")
                 right = "VibHardHalf"
             end
             if new_state.action_id == shenweinadao then
@@ -168,7 +119,9 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
 
         if 163 <= new_state.action_id and new_state.action_id <= 168 then
             -- 神威蓄力
-            utils.chat("气刃消耗到"..new_state.gauge_level)
+            if changed.gauge_level then
+                utils.chat("气刃消耗到"..new_state.gauge_level)
+            end
             if new_state.gauge_level == 3 then 
                 right = "Normal"
             end
@@ -183,13 +136,7 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
             end
         end
     end
-    current_state = new_state
-    if right and right ~= config.RightTrigger then
-        config.RightTrigger = right
-        utils.chat(right)
-        return true
-    end
-    return false
+    return {LeftTrigger=left, RightTrigger=right}
 end
 
 return weapon

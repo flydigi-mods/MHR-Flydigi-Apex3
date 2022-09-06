@@ -1,4 +1,8 @@
-local weapon_modules = {'ls'}
+local weapon_modules = {
+    'great_sword', 'long_sword', 'short_sword', 'dual_blades',
+    'lance', 'gun_lance', 'hammer', 'horn', 'switch_axe', 'charge_axe',
+    'insect_glaive', 'light_bowgun', 'heavy_bowgun', 'bow'
+}
 
 local utils = require('flydigi_apex3/utils')
 local c = require('flydigi_apex3/cache')
@@ -79,13 +83,14 @@ function(args)
             current_weapon.on_update = nil
         end
         current_weapon = weapons[current_weapon_type]
+        reset_default_controller_config()
         if current_weapon then
             current_weapon.on_update = on_update
             if not current_weapon.hooked then
                 current_weapon:hook()
             end
+            utils.chat("Weapon "..current_weapon.name.." "..tostring(current_weapon_type))
         else
-            reset_default_controller_config()
             return
         end
     end
