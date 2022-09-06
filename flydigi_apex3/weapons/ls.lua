@@ -135,7 +135,7 @@ function weapon:update_controller_config(config, action_id, action_bank_id, play
             right = "PushBack"
         end
     end
-    if not changed.action_id and self.current_state.action_id == shenweixuliwanchen then
+    if not changed.action_id and current_state.action_id == shenweixuliwanchen then
         return false
     end
     if new_state:with_weapon() then
