@@ -76,6 +76,9 @@ end
 function weapon:get_controller_config(new_state, changed, player, config)
     local left = setting.left_default
     local right = setting.right_default
+    if new_state.gauge_level == 3 then
+        right = "VibSoftHalf"
+    end
     if changed.action_bank_id then
         if self.current_state:is_sheathe() and new_state:is_hit() then
             utils.chat("防御失败")
@@ -119,7 +122,9 @@ function weapon:get_controller_config(new_state, changed, player, config)
 
         if 163 <= new_state.action_id and new_state.action_id <= 168 then
             -- 神威蓄力
-            utils.chat("气刃消耗到"..new_state.gauge_level)
+            if changed.gauge_level then
+                utils.chat("气刃消耗到"..new_state.gauge_level)
+            end
             if new_state.gauge_level == 3 then 
                 right = "Normal"
             end
