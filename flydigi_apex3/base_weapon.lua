@@ -25,6 +25,7 @@ function BaseWeapon:update_controller_config(config, action_id, action_bank_id, 
         if config[k] ~= v then
             config_changed = true
             config[k] = v
+            utils.chat("act: "..tostring(new_state.action_id)..", bank: "..tostring(new_state.action_id))
             utils.chat(k..": "..v)
         end
     end

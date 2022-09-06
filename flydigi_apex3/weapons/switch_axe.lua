@@ -16,7 +16,7 @@ local weapon = BaseWeapon:new(weapon_type, weapon_name, {sdk_weapon_type:get_met
 
 function weapon:get_status(manager)    
     local status = {
-        bottle = bottle_field:get_data(manager)
+        bottle = bottle_field:get_data(manager),
         awake = awake_field:get_data(manager)
     }
     return status
