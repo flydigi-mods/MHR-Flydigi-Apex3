@@ -114,7 +114,7 @@ function weapon:get_status(manager)
     -- end
     
     local status = {
-        gauge = gauge_field:get_data(manager)
+        gauge = gauge_field:get_data(manager),
         gauge_level = gauge_lv_field:get_data(manager)
     }
     return status
