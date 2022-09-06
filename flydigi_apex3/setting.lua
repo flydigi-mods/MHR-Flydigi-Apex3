@@ -3,8 +3,8 @@ local setting = json.load_file(file_path)
 if not setting then
     setting = {enable = true, debug_window = false, left_default='LockHalf', right_default='LockHalf'}
 else
-    if setting.left_default = "Gap1" then setting.left_default = 'LockHalf' end
-    if setting.right_default = "Gap1" then setting.right_default = 'LockHalf' end
+    if setting.left_default == "Gap1" then setting.left_default = 'LockHalf' end
+    if setting.right_default == "Gap1" then setting.right_default = 'LockHalf' end
 end
 
 re.on_config_save(function()
