@@ -3,7 +3,7 @@ local weapon_type = 2
 local weapon_hook_name = "snow.player.LongSword"
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.LongSword")
-local gauge_field = showQuickWindow:get_field("_LongSwordGauge")
+local gauge_field = sdk_weapon_type:get_field("_LongSwordGauge")
 local gauge_lv_field = sdk_weapon_type:get_field("_LongSwordGaugeLv")
 
 local hooks = {}
