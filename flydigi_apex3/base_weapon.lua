@@ -7,14 +7,38 @@ function BaseWeapon:get_status(manager)
     error("need to implement get_status for "..self.name..", "..self.type);
 end
 
-
-function BaseWeapon:update_controller_config(current_config, action_id, action_bank_id, player)
-    error("need to impelment update_controller_config for "..self.name..", "..self.type)
+function BaseWeapon:get_controller_config(new_state, changed, player, config)
+    error("need to impelment get_controller_config for "..self.name..", "..self.type)
 end
 
+function BaseWeapon:update_controller_config(config, action_id, action_bank_id, player)
+    local new_state = self.state_type:new(action_id, action_bank_id, self.status)
+    if self.current_state == nil or self.current_state:is_nil() then
+        self.current_state = new_state
+        return false
+    end
+    local changed = self.current_state:changed(new_state)
+    if not changed then return false end
+    local new_config = self:get_controller_config(new_state, changed, player, config)
+    local config_changed = false
+    for k, v in pairs(new_config) do
+        if config[k] ~= v then
+            config_changed = true
+            config[k] = v
+            utils.chat(k..": "..v)
+        end
+    end
+    self.current_state = new_state
+    return config_changed
+end
 
-function BaseWeapon:new(weapon_type, weapon_name, weapon_hook_names)
-    local newObj = {type = weapon_type, name = weapon_name, on_update = nil, status = {}, hooks=weapon_hook_names, hooked = false}            
+function BaseWeapon:new(weapon_type, weapon_name, weapon_hook_names, state_type)
+    local newObj = {
+        type = weapon_type, name = weapon_name, on_update = nil, 
+        status = {}, hooks=weapon_hook_names, hooked = false,
+        state_type = state_type
+    }
+    newObj['current_state'] = state_type:new()            
     self.__index = self
     return setmetatable(newObj, self)
 end
