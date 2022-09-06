@@ -65,6 +65,34 @@ param2=255
 param3=1
 param4=0
 
+[LockBottom]
+Mode=1
+param1=190
+param2=255
+param3=1
+param4=0
+
+[VibHardTopHard]
+Mode=2
+param1=0
+param2=255
+param3=200
+param4=30
+
+[VibHardTop]
+Mode=2
+param1=20
+param2=1
+param3=200
+param4=30
+
+[VibSoftHalf]
+Mode=2
+param1=80
+param2=1
+param3=10
+param4=10
+
 [VibHardHalf]
 Mode=2
 param1=80
@@ -77,13 +105,13 @@ Mode=2
 param1=160
 param2=1
 param3=10
-param4=30
+param4=20
 
 [VibSoftBottom]
 Mode=2
 param1=160
 param2=1
-param3=30
+param3=100
 param4=30
 
 [VibHardSlowBottom]
