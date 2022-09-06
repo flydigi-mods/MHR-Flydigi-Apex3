@@ -76,9 +76,6 @@ end
 function weapon:get_controller_config(new_state, changed, player, config)
     local left = setting.left_default
     local right = setting.right_default
-    if new_state.gauge_level == 3 then
-        right = "VibSoftHalf"
-    end
     if changed.action_bank_id then
         if self.current_state:is_sheathe() and new_state:is_hit() then
             utils.chat("防御失败")
