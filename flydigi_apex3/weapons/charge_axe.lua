@@ -1,5 +1,5 @@
 local weapon_name = "ChargeAxe"
-local weapon_type = 10
+local weapon_type = 11
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.ChargeAxe")
 

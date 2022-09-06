@@ -1,5 +1,5 @@
 local weapon_name = "DualBlades"
-local weapon_type = 4
+local weapon_type = 9
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.DualBlades")
 local demon_gauge_field = sdk_weapon_type:get_field("<KijinKyoukaGuage>k__BackingField")

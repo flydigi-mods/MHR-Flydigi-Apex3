@@ -1,5 +1,5 @@
 local weapon_name = "GreatSword"
-local weapon_type = 1
+local weapon_type = 0
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.GreatSword")
 local charge_field = sdk_weapon_type:get_field("_TameLv")

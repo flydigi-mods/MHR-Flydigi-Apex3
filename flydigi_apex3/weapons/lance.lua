@@ -1,5 +1,5 @@
 local weapon_name = "Lance"
-local weapon_type = 5
+local weapon_type = 7
 
 local BaseWeapon = require("flydigi_apex3/base_weapon")
 local utils = require('flydigi_apex3/utils')

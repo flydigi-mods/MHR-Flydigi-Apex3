@@ -1,5 +1,5 @@
 local weapon_modules = {
-    'great_sword', 'long_sword', 'sword_and_shield', 'dual_blades',
+    'great_sword', 'long_sword', 'short_sword', 'dual_blades',
     'lance', 'gun_lance', 'hammer', 'horn', 'switch_axe', 'charge_axe',
     'insect_glaive', 'light_bowgun', 'heavy_bowgun', 'bow'
 }
@@ -89,7 +89,7 @@ function(args)
             if not current_weapon.hooked then
                 current_weapon:hook()
             end
-            utils.chat("Weapon "..current_weapon.name)
+            utils.chat("Weapon "..current_weapon.name.." "..tostring(current_weapon_type))
         else
             return
         end

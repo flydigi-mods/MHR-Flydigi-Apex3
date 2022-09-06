@@ -1,5 +1,5 @@
 local weapon_name = "Bow"
-local weapon_type = 14
+local weapon_type = 13
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.Bow")
 local charge_field = sdk_weapon_type:get_field("<ChargeLv>k__BackingField")

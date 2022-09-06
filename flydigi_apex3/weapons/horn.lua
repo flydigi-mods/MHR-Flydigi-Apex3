@@ -1,5 +1,5 @@
 local weapon_name = "Horn"
-local weapon_type = 8
+local weapon_type = 10
 
 local sdk_weapon_type = sdk.find_type_definition("snow.player.Horn")
 local gauge_field = sdk_weapon_type:get_field("<RevoltGuage>k__BackingField")
