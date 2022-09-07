@@ -1,15 +1,14 @@
 local file_path = "flydigi_apex3/setting.json"
 local setting = json.load_file(file_path)
+local udp = require("flydigi_apex3.udp_client")
 if not setting then
     setting = {enable = true, debug_window = false, left_default='LockHalf', right_default='LockHalf'}
-else
-    if setting.left_default == "Gap1" then setting.left_default = 'LockHalf' end
-    if setting.right_default == "Gap1" then setting.right_default = 'LockHalf' end
 end
 
 re.on_config_save(function()
     json.dump_file(file_path, setting, 4)
 end)
+
 
 re.on_draw_ui(function() 
     if imgui.tree_node("Flydigi Apex3") then
@@ -17,6 +16,10 @@ re.on_draw_ui(function()
         local debug_window = imgui.small_button("Debug Window")
         if debug_window then
             setting.debug_window = true
+        end
+        local send_udp = imgui.small_button("Test UDP")
+        if send_udp then
+            udp:send("sending udp packet from MHR")
         end
         imgui.tree_pop();
     end
