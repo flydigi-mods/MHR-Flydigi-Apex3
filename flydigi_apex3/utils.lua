@@ -6,21 +6,18 @@ local PlayerManager
 local InputManager
 local ChatManager
 
-function utils.chat(text)
-    if not setting.debug_window then return end
+utils.os = 'unix'
+if package.config:sub(1,1) == '\\' then
+    utils.os = 'windows'
+end
+
+
+function utils.chat(text, always)
+    if not setting.debug_window and not always then return end
     if not ChatManager then ChatManager = sdk.get_managed_singleton("snow.gui.ChatManager") end
     if ChatManager then
         ChatManager:call("reqAddChatInfomation", "Apex3: "..text, 0)
     end
-end
-
-function utils.get_default_controller_config()
-    return {
-        LeftTrigger = setting.left_default,
-        RightTrigger = setting.right_default,
-        UDPSplit = true,
-        UDPLogs = true
-    }
 end
 
 function utils.deepcompare(t1,t2,ignore_mt)
@@ -45,22 +42,6 @@ end
 
 function utils.get_manager(args) 
     return sdk.to_managed_object(args[2]) 
-end
-
-function utils.save_controller_config(config)
-    content = ""
-    for k, v in pairs(config) do
-        if type(v) == "string" then
-            content = content..k..'='..v..'\n'
-        else
-            content = content..k..'='..tostring(v)..'\n'
-        end
-    end
-    fs.write('flydigi_apex3/DualSenseXConfig.txt', content)
-end
-
-function utils.empty_controller_config()
-    fs.write('flydigi_apex3/DualSenseXConfig.txt', "")
 end
 
 return utils

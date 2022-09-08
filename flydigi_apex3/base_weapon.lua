@@ -20,17 +20,8 @@ function BaseWeapon:update_controller_config(config, action_id, action_bank_id, 
     local changed = self.current_state:changed(new_state)
     if not changed then return false end
     local new_config = self:get_controller_config(new_state, changed, player, config)
-    local config_changed = false
-    for k, v in pairs(new_config) do
-        if config[k] ~= v then
-            config_changed = true
-            config[k] = v
-            utils.chat("act: "..tostring(new_state.action_id)..", bank: "..tostring(new_state.action_id))
-            utils.chat(k..": "..v)
-        end
-    end
     self.current_state = new_state
-    return config_changed
+    return new_config
 end
 
 function BaseWeapon:new(weapon_type, weapon_name, weapon_hook_names, state_type)

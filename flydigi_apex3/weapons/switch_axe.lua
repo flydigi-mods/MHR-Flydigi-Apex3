@@ -6,6 +6,8 @@ local bottle_field = sdk_weapon_type:get_field("_BottleGauge")
 local awake_field = sdk_weapon_type:get_field("_BottleAwakeGauge")
 local mode_method = sdk_weapon_type:get_method("get_Mode")
 
+local Packet = require('flydigi_apex3.udp_client')
+local Instruction = Packet.Instruction
 local BaseWeapon = require("flydigi_apex3/base_weapon")
 local utils = require('flydigi_apex3/utils')
 local setting = require('flydigi_apex3/setting')
@@ -45,37 +47,37 @@ function weapon:get_status(manager)
 end
 
 function weapon:get_controller_config(new_state, changed, player, config)
-    local right = setting.right_default
-    local left = setting.left_default
+    local left = Instruction.left_default()
+    local right = Instruction.right_default()
     if changed.action_bank_id then
         if not self.current_state:is_hit() and new_state:is_hit() then
-            right = "PushBack"
-            left = "PushBack"
+            right = Instruction:new():PushBack()
+            left = Instruction:new():PushBack()
         end
     end
     if new_state.action_id == chongtianfanjijiuxu or new_state.action_id == chongtianfanji or self.current_state.action_id == chongtianfanjijiuxu then
-        right = "VibHardTop"
+        right = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
     end
     if new_state.action_id == feixianglongjianzhunbei or new_state.action_id == feixianglongjianqifei then
-        left = "VibHardTopHard"
+        left = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
     end
     if changed.action_id then
         if new_state.action_id == zhanjichongneng then
-            left = "LockBottom"
+            left = Instruction:new():Resistant():BeginBottom(-20):ForceMax()
         end
         if new_state.action_id == tiechongsibufaright or new_state.action_id == tiechongsibufaleft then
-            left = "LockBottom"
+            left = Instruction:new():Resistant():BeginBottom(-20):ForceMax()
         end
         if new_state.action_id == jinganglianfu_axe or new_state.action_id == jinganglianfu_sword then
-            left = "VibHardTop"
+            left = Instruction:new():Vib():BeginTop(20):ForceMin():VibForceMax():VibFreq(30)
         end
     end
     if self.current_state.mode == mode_axe then
         if new_state.bottle < to_sword_min_bottle then
-            right = "VibHardTopHard"
+            right = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
         end
     end
-    return {LeftTrigger=left, RightTrigger=right}
+    return Packet:new(left, right)
 end
 
 return weapon

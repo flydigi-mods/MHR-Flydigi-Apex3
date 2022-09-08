@@ -9,10 +9,12 @@ local gauge_lv_field = sdk_weapon_type:get_field("_LongSwordGaugeLv")
 local hooks = {}
 hooks['snow.player.LongSword'] = "set_LongSwordGaugeLv"
 
-local BaseWeapon = require("flydigi_apex3/base_weapon")
-local utils = require('flydigi_apex3/utils')
-local setting = require('flydigi_apex3/setting')
-local BaseState = require('flydigi_apex3/base_state')
+local Packet = require('flydigi_apex3.udp_client')
+local Instruction = Packet.Instruction
+local BaseWeapon = require("flydigi_apex3.base_weapon")
+local utils = require('flydigi_apex3.utils')
+local setting = require('flydigi_apex3.setting')
+local BaseState = require('flydigi_apex3.base_state')
 
 local shenweinadao = 161 -- 神威纳刀
 local shenweizidongzhaojia = 173 -- 神威自动招架
@@ -74,46 +76,46 @@ function weapon:get_status(manager)
 end
 
 function weapon:get_controller_config(new_state, changed, player, config)
-    local left = setting.left_default
-    local right = setting.right_default
+    local left = Instruction.left_default()
+    local right = Instruction.right_default()
     if changed.action_bank_id then
         if self.current_state:is_sheathe() and new_state:is_hit() then
             utils.chat("防御失败")
-            right = "PushBack"
+            right = Instruction:new():PushBack()
         end
     end
     if not changed.action_id and self.current_state.action_id == shenweixuliwanchen then
-        return false
+        return Packet:new()
     end
     if new_state:with_weapon() then
         if changed.action_id then
             if new_state.action_id == shenweizidongzhaojia then
                 utils.chat("神威自动招架")
-                right = "PushBack"
+                right = Instruction:new():PushBack()
             end
             if new_state.action_id == teshunadao then
                 utils.chat("特殊纳刀")
-                right = "PushBack"
+                right = Instruction:new():PushBack()
             end
             if new_state.action_id == teshunadaowancheng then
                 utils.chat("特殊纳刀完成")
-                right = "VibHardHalf"
+                right = Instruction.right_default():BeginOffset(-20)
             end
             if new_state.action_id == shenweinadaozhaojia then
                 utils.chat("神威纳刀招架")
-                right = "VibHardHalf"
+                right = Instruction.right_default():BeginOffset(-20)
             end
             if new_state.action_id == shenweinadao then
                 utils.chat("神威纳刀")
-                right = "LockHalf"
+                right = Instruction.right_default()
             end
             if new_state.action_id == shenweixuli then
                 utils.chat("神威纳刀完成")
-                right = "Normal"
+                right = Instruction:new():Resistant():ForceMax():BeginBottom(-20)
             end
             if new_state.action_id == shenweixuliwanchen then
                 utils.chat("神威蓄力完成")
-                right = "VibHardSlowBottom"
+                right = Instruction:new():Vib():VibForceMax():VibFreq(3):ForceMin():BeginBottom(-20)
             end
         end
 
@@ -123,20 +125,20 @@ function weapon:get_controller_config(new_state, changed, player, config)
                 utils.chat("气刃消耗到"..new_state.gauge_level)
             end
             if new_state.gauge_level == 3 then 
-                right = "Normal"
+                right = Instruction:new():Resistant():ForceMax():BeginBottom(-20)
             end
             if new_state.gauge_level == 2 then
-                right = "VibVerySoftBottom"
+                right = Instruction:new():Vib():VibForce(10):VibFreq(20):ForceMin():BeginBottom(-40)
             end
             if new_state.gauge_level == 1 then
-                right = "VibSoftBottom"
+                right = Instruction:new():Vib():VibForce(30):VibFreq(50):ForceMin():BeginBottom(-40)
             end
             if new_state.gauge_level == 0 then
-                right = "VibHardSlowBottom"
+                right = Instruction:new():Vib():VibForceMax():VibFreq(3):ForceMin():BeginBottom(-40)
             end
         end
     end
-    return {LeftTrigger=left, RightTrigger=right}
+    return Packet:new(left, right)
 end
 
 return weapon

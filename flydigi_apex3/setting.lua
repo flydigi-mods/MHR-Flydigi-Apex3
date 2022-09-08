@@ -1,64 +1,47 @@
 local file_path = "flydigi_apex3/setting.json"
+local fields_not_to_save = { debug_window = true, reset_default = true}
+local default_udp_port = 7878
+
+local default_setting = {
+    enable = true, 
+    debug_window = false, 
+    left_default_lock_pos = 100, 
+    right_default_lock_pos = 100,
+    font_size = 24,
+    udp_port = default_udp_port
+}
+
 local setting = json.load_file(file_path)
-local udp = require("flydigi_apex3.udp_client")
-if not setting then
-    setting = {enable = true, debug_window = false, left_default='LockHalf', right_default='LockHalf'}
+
+local function apply_default()
+    if not setting then setting = {} end
+    for k, v in pairs(default_setting) do 
+        if setting[k] == nil then
+            setting[k] = v
+        end
+    end
 end
+
+apply_default()
+
+setting.reset_default = function()
+    for k, v in pairs(default_setting) do
+        setting[k] = v
+    end
+end
+
+log.debug("flydigi setting init")
 
 re.on_config_save(function()
-    json.dump_file(file_path, setting, 4)
-end)
-
-
-re.on_draw_ui(function() 
-    if imgui.tree_node("Flydigi Apex3") then
-        _, setting.enable = imgui.checkbox("Enable Apex3 Adaptive Trigger", setting.enable)
-        local debug_window = imgui.small_button("Debug Window")
-        if debug_window then
-            setting.debug_window = true
+    local data = {}
+    for k, v in pairs(setting) do
+        if not fields_not_to_save[k] then
+            if default_setting[k] ~= v then
+                data[k] = v
+            end
         end
-        local send_udp = imgui.small_button("Test UDP")
-        if send_udp then
-            udp:send("sending udp packet from MHR")
-        end
-        imgui.tree_pop();
     end
+    json.dump_file(file_path, data, 4)
 end)
-
-local function is_module_available(name)
-    if package.loaded[name] then
-      return true
-    else
-      for _, searcher in ipairs(package.searchers or package.loaders) do
-        local loader = searcher(name)
-        if type(loader) == 'function' then
-          package.preload[name] = loader
-          return true
-        end
-      end
-      return false
-    end
-end
-
-local modUI = nil
-
-if is_module_available("ModOptionsMenu.ModMenuApi") then
-	modUI = require("ModOptionsMenu.ModMenuApi")
-end
-
-if modUI then
-    local name = "Flydigi Apex3"
-    local description = ""
-    modUI.OnMenu(name, description, function()
-        if modUI.version < 1.6 then
-			modUI.Label("Please update mod menu API.")
-            return
-        end
-        modUI.Header("Flydigi Apex3 Controller")
-        _, setting.enable = modUI.CheckBox("Enable", setting.enable, "Enable Adaptive Trigger")
-        local debug_window = modUI.Button("Show Debug Window")
-        if debug_window then setting.debug_window = true end
-    end)
-end
 
 return setting

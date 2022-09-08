@@ -4,19 +4,26 @@ local weapon_modules = {
     'insect_glaive', 'light_bowgun', 'heavy_bowgun', 'bow'
 }
 
-local utils = require('flydigi_apex3/utils')
-local c = require('flydigi_apex3/cache')
-local setting = require('flydigi_apex3/setting')
+local utils = require('flydigi_apex3.utils')
+local c = require('flydigi_apex3.cache')
+local setting = require('flydigi_apex3.setting')
+local Config = require('flydigi_apex3.udp_client')
+
+local udp_path = "./flydigi_apex3/udp_client"
+if utils.os == 'windows' then
+    udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."reframework\\autorun\\flydigi_apex3\\udp_client"
+end
+Config.load(udp_path)
 
 local action_id
 local action_bank_id
 local player 
 local current_weapon_type
 local current_weapon
-local current_controller_config = utils.get_default_controller_config()
+local current_controller_config = Config.get_default()
 
 local function load_weapon(name) 
-    return require('flydigi_apex3/weapons/'..name)
+    return require('flydigi_apex3.weapons.'..name)
 end
 
 local weapons = {}
@@ -25,20 +32,24 @@ for _, name in ipairs(weapon_modules) do
     weapons[weapon.type] = weapon
 end
 
-local function update_controller_config()
-    utils.save_controller_config(current_controller_config)
+local function update_controller_config(new_config)
+    if current_controller_config:equal(new_config) then return end
+    local delta = current_controller_config:delta(new_config)
+    if delta:is_nil() then return end
+    if delta:send() then
+       current_controller_config = new_config
+    end
 end
 
 local function reset_default_controller_config()
-    current_controller_config = utils.get_default_controller_config()
-    update_controller_config()
+    update_controller_config(Config.get_default())
 end
 
 local function on_update()
     if current_weapon then
-        local changed = current_weapon:update_controller_config(current_controller_config, action_id, action_bank_id, player)
-        if changed then
-            update_controller_config()
+        local new_config = current_weapon:update_controller_config(current_controller_config, action_id, action_bank_id, player)
+        if new_config and not new_config:is_nil() then
+            update_controller_config(new_config)
         end
     end
 end
@@ -103,11 +114,34 @@ end,
 function(retval) return retval end
 )
 
+local font = nil
+if d2d then
+    d2d.register(function()
+        font = d2d.Font.new("Arial", setting.font_size)
+    end, function()
+        if not setting.debug_window then return end
+        if not font then return end
+        local str = "Act: "..action_id..", Bank: "..action_bank_id
+        if current_weapon then
+            for k, v in pairs(current_weapon.status) do
+                str = str.."\n"..k..": "..v
+            end
+        end
+        local w, h = font:measure(str)
+        local screen_w, screen_h = d2d.surface_size()
+        local margin = 40
+        local padding = 2
+        d2d.fill_rect(margin, screen_h - margin - h - padding * 2, w + padding * 2, h + padding * 2, 0x99000000)
+        d2d.text(font, str, margin + padding, screen_h - margin - padding - h, 0xCCFFFFFF)
+    end)
+end
+
 re.on_frame(function() 
+    if d2d and font then return end
     if setting.debug_window then
         if imgui.begin_window("Flydigi Apex3 Debug", true, 64) then
             if action_id ~= nil and action_bank_id ~= nil then 
-                imgui.text("act: "..tostring(action_id)..", bank: "..action_bank_id)
+                imgui.text("Act: "..tostring(action_id)..", Bank: "..action_bank_id)
             end
             if current_weapon then
                 for k, v in pairs(current_weapon.status) do
@@ -121,7 +155,4 @@ re.on_frame(function()
     end
 end)
 
-re.on_pre_application_entry('Terminate', function() 
-    log.debug('Terminate') 
-    utils.empty_controller_config()
-end)
+require("flydigi_apex3/ui")
