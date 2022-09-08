@@ -1,6 +1,6 @@
 local Instruction = {}
 
-local setting = require('flydigi_apex3.setting')
+local setting = require('setting')
 
 Instruction.TriggerType = {Left=1, Right=2}
 Instruction.ModeType = {Normal=0, Resistant=1, Vib=2, Gap=3}

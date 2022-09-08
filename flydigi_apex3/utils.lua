@@ -1,6 +1,6 @@
 local utils = {}
 
-local setting = require('flydigi_apex3/setting')
+local setting = require('setting')
 
 local PlayerManager
 local InputManager
@@ -10,7 +10,6 @@ utils.os = 'unix'
 if package.config:sub(1,1) == '\\' then
     utils.os = 'windows'
 end
-
 
 function utils.chat(text, always)
     if not setting.debug_window and not always then return end

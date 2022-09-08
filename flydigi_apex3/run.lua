@@ -4,14 +4,14 @@ local weapon_modules = {
     'insect_glaive', 'light_bowgun', 'heavy_bowgun', 'bow'
 }
 
-local utils = require('flydigi_apex3.utils')
-local c = require('flydigi_apex3.cache')
-local setting = require('flydigi_apex3.setting')
-local Config = require('flydigi_apex3.udp_client')
+local utils = require('utils')
+local c = require('cache')
+local setting = require('setting')
+local Config = require('udp_client')
 
 local udp_path = "./flydigi_apex3/udp_client"
 if utils.os == 'windows' then
-    udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."reframework\\autorun\\flydigi_apex3\\udp_client"
+    udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."\\udp_client"
 end
 Config.load(udp_path)
 
@@ -23,7 +23,7 @@ local current_weapon
 local current_controller_config = Config.get_default()
 
 local function load_weapon(name) 
-    return require('flydigi_apex3.weapons.'..name)
+    return require('weapons.'..name)
 end
 
 local weapons = {}
@@ -155,4 +155,4 @@ re.on_frame(function()
     end
 end)
 
-require("flydigi_apex3/ui")
+require("ui")

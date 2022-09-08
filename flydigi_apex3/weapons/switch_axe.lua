@@ -6,12 +6,12 @@ local bottle_field = sdk_weapon_type:get_field("_BottleGauge")
 local awake_field = sdk_weapon_type:get_field("_BottleAwakeGauge")
 local mode_method = sdk_weapon_type:get_method("get_Mode")
 
-local Packet = require('flydigi_apex3.udp_client')
+local Packet = require('udp_client')
 local Instruction = Packet.Instruction
-local BaseWeapon = require("flydigi_apex3/base_weapon")
-local utils = require('flydigi_apex3/utils')
-local setting = require('flydigi_apex3/setting')
-local BaseState = require('flydigi_apex3/base_state')
+local BaseWeapon = require("base_weapon")
+local utils = require('utils')
+local setting = require('setting')
+local BaseState = require('base_state')
 
 local chongtianfanji = 181 -- 属性充填反击
 local chongtianfanjijiuxu = 182 -- 属性充填反击就绪

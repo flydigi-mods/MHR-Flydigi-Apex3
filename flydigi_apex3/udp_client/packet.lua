@@ -1,4 +1,4 @@
-local Instruction = require("flydigi_apex3.udp_client.instruction")
+local Instruction = require("udp_client.instruction")
 
 local Packet = {}
 

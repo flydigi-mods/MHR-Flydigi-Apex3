@@ -9,12 +9,12 @@ local gauge_lv_field = sdk_weapon_type:get_field("_LongSwordGaugeLv")
 local hooks = {}
 hooks['snow.player.LongSword'] = "set_LongSwordGaugeLv"
 
-local Packet = require('flydigi_apex3.udp_client')
+local Packet = require('udp_client')
 local Instruction = Packet.Instruction
-local BaseWeapon = require("flydigi_apex3.base_weapon")
-local utils = require('flydigi_apex3.utils')
-local setting = require('flydigi_apex3.setting')
-local BaseState = require('flydigi_apex3.base_state')
+local BaseWeapon = require("base_weapon")
+local utils = require('utils')
+local setting = require('setting')
+local BaseState = require('base_state')
 
 local shenweinadao = 161 -- 神威纳刀
 local shenweizidongzhaojia = 173 -- 神威自动招架

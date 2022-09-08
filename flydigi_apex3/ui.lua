@@ -1,6 +1,6 @@
-local setting = require("flydigi_apex3.setting")
-local version = require("flydigi_apex3.version")
-local Packet = require("flydigi_apex3.udp_client")
+local setting = require("setting")
+local version = require("version")
+local Packet = require("udp_client")
 local Instruction = Packet.Instruction
 
 local default_lock_pos_min = 50

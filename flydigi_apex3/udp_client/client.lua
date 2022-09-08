@@ -1,5 +1,5 @@
-local utils = require("flydigi_apex3.utils")
-local setting = require('flydigi_apex3.setting')
+local utils = require("utils")
+local setting = require('setting')
 
 local Client = {}
 
