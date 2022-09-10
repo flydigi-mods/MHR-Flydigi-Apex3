@@ -15,11 +15,12 @@ if utils.os == 'windows' then
     udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."\\udp_client"
 end
 Config.setup(udp_path, json.dump_string, 
-Instruction:new():Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true),
-Instruction:new():Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true),
+Instruction.new_left():Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true),
+Instruction.new_right():Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true),
 function() return setting.udp_port end
 )
 Config.current = Config.get_default()
+Config.current:send()
 
 local action_id
 local action_bank_id
@@ -60,6 +61,13 @@ sdk.hook(c.motion_control_late_update_method,
 function(args)
     if not setting.enable then return end
 	local motionControl = utils.get_manager(args)
+    
+	local refPlayerBase = c.motion_control_player_field:get_data(motionControl)
+    if not refPlayerBase then return end
+    local isMasterPlayer = c.player_is_master_method:call(refPlayerBase)
+    if not isMasterPlayer then return end
+    player = refPlayerBase
+
     local new_action_id = c.motion_control_old_motion_id_field:get_data(motionControl)
     local new_action_bank_id = c.motion_control_old_bank_id_field:get_data(motionControl)
     
@@ -69,13 +77,8 @@ function(args)
 
     action_id = new_action_id
     action_bank_id = new_action_bank_id
-
-	local refPlayerBase = c.motion_control_player_field:get_data(motionControl)
-    if not refPlayerBase then return end
-    local isMasterPlayer = c.player_is_master_method:call(refPlayerBase)
-    if not isMasterPlayer then return end
-    player = refPlayerBase
     local weapon_type = c.player_weapon_type_field:get_data(player)
+
     if weapon_type == nil and current_weapon_type == nil then
         return
     end
@@ -121,7 +124,6 @@ if d2d then
     end, function()
         if not setting.debug_window then return end
         if not font then return end
-        if action_bank_id == nil or action_bank_id == 0 or action_bank_id == 50 or action_bank_id == 4 then return end
         local str = "Act: "..action_id..", Bank: "..action_bank_id
         if current_weapon then
             str = str.."\n"..current_weapon.name..", "..tostring(current_weapon.type)
@@ -143,8 +145,8 @@ if d2d then
         local screen_w, screen_h = d2d.surface_size()
         local margin = 40
         local padding = 2
-        d2d.fill_rect(margin, screen_h - margin - h - padding * 2, w + padding * 2, h + padding * 2, 0x99000000)
-        d2d.text(font, str, margin + padding, screen_h - margin - padding - h, 0xCCFFFFFF)
+        d2d.fill_rect(margin, screen_h - margin - h - padding * 2, w + padding * 2, h + padding * 2, 0x44000000)
+        d2d.text(font, str, margin + padding, screen_h - margin - padding - h, 0x99FFFFFF)
     end)
 end
 

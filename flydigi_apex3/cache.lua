@@ -8,7 +8,7 @@ c.motion_control_player_field = c.motion_control_type:get_field("_RefPlayerBase"
 c.motion_control_old_motion_id_field = c.motion_control_type:get_field("_OldMotionID")
 c.motion_control_old_bank_id_field = c.motion_control_type:get_field("_OldBankID")
 
-c.player_is_master_method = c.player_type:get_method("isMasterPlayer")
+c.player_is_master_method = c.player_type:get_method("isMasterID")
 c.player_weapon_type_field = c.player_type:get_field("_playerWeaponType")
 -- c.player_check_muteki_method = c.player_type:get_method("checkMuteki")
 -- c.player_check_super_armor_method = c.player_type:get_method("checkSuperArmor")

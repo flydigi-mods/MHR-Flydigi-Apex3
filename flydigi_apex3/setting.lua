@@ -7,7 +7,7 @@ local default_setting = {
     debug_window = false, 
     left_default_lock_pos = 100, 
     right_default_lock_pos = 100,
-    font_size = 14,
+    font_size = 12,
     udp_port = default_udp_port
 }
 
