@@ -1,3 +1,4 @@
 .stignore
 trigger.ini
 core.so
+.vscode

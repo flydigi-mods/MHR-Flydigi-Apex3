@@ -46,35 +46,35 @@ function weapon:get_status(manager)
     return status
 end
 
-function weapon:get_controller_config(new_state, changed, player, config)
+function weapon:get_controller_config(new_state, changed, player)
     local left = Instruction.left_default()
     local right = Instruction.right_default()
     if changed.action_bank_id then
         if not self.current_state:is_hit() and new_state:is_hit() then
-            right = Instruction:new():PushBack()
-            left = Instruction:new():PushBack()
+            right = Instruction.new_left():PushBack()
+            left = Instruction.new_right():PushBack()
         end
     end
     if new_state.action_id == chongtianfanjijiuxu or new_state.action_id == chongtianfanji or self.current_state.action_id == chongtianfanjijiuxu then
-        right = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
+        right = Instruction.new_left():VibFor(0.2):VibForceMax():VibFreq(30):BeginTop():ForceMax()
     end
     if new_state.action_id == feixianglongjianzhunbei or new_state.action_id == feixianglongjianqifei then
-        left = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
+        left = Instruction.new_left():VibFor(0.2):VibForceMax():VibFreq(30):BeginTop():ForceMax()
     end
     if changed.action_id then
         if new_state.action_id == zhanjichongneng then
-            left = Instruction:new():Resistant():BeginBottom(-20):ForceMax()
+            left = Instruction.new_left():Resistant():BeginBottom(-20):ForceMax()
         end
         if new_state.action_id == tiechongsibufaright or new_state.action_id == tiechongsibufaleft then
-            left = Instruction:new():Resistant():BeginBottom(-20):ForceMax()
+            left = Instruction.new_left():Resistant():BeginBottom(-20):ForceMax()
         end
         if new_state.action_id == jinganglianfu_axe or new_state.action_id == jinganglianfu_sword then
-            left = Instruction:new():Vib():BeginTop(20):ForceMin():VibForceMax():VibFreq(30)
+            left = Instruction.new_left():VibFor(0.5):BeginTop(20):ForceMin():VibForceMax():VibFreq(30)
         end
     end
     if self.current_state.mode == mode_axe then
         if new_state.bottle < to_sword_min_bottle then
-            right = Instruction:new():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
+            right = Instruction.new_left():Vib():VibForceMax():VibFreq(30):BeginTop():ForceMax()
         end
     end
     return Packet:new(left, right)

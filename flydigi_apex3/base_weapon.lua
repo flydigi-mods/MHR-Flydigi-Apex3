@@ -11,7 +11,7 @@ function BaseWeapon:get_controller_config(new_state, changed, player, config)
     error("need to impelment get_controller_config for "..self.name..", "..self.type)
 end
 
-function BaseWeapon:update_controller_config(config, action_id, action_bank_id, player)
+function BaseWeapon:update_controller_config(action_id, action_bank_id, player)
     local new_state = self.state_type:new(action_id, action_bank_id, self.status)
     if self.current_state == nil or self.current_state:is_nil() then
         self.current_state = new_state
@@ -19,7 +19,7 @@ function BaseWeapon:update_controller_config(config, action_id, action_bank_id, 
     end
     local changed = self.current_state:changed(new_state)
     if not changed then return false end
-    local new_config = self:get_controller_config(new_state, changed, player, config)
+    local new_config = self:get_controller_config(new_state, changed, player)
     self.current_state = new_state
     return new_config
 end

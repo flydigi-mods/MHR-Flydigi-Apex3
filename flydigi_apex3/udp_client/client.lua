@@ -1,13 +1,18 @@
-local utils = require("utils")
-local setting = require('setting')
+local os = 'unix'
+if package.config:sub(1,1) == '\\' then
+    os = 'windows'
+end
 
 local Client = {}
+Client.get_port = function()
+    return 7878
+end
 
 function Client:new(udp_path)
     local path = package.path
     local cpath = package.cpath 
 
-    if utils.os == 'windows' then
+    if os == 'windows' then
         package.cpath = udp_path.."\\?.dll;"..package.cpath
         package.path = udp_path.."\\?.lua;"..package.path:gsub(".dll", '.lua')
     else
@@ -22,26 +27,25 @@ function Client:new(udp_path)
 
     local newObj = {
         address = "127.0.0.1",
-        udp = socket.udp()
+        udp = socket.udp(),
+        socket = socket
     }
     self.__index = self
     return setmetatable(newObj, self)
 end
 
 function Client:connected() 
-    return self.port == setting.udp_port    
+    return self.port == Client.get_port()
 end
 
 function Client:connect()
     if self:connected() then
         return true
     end
-    local success, err = self.udp:setpeername(self.address, setting.udp_port)
+    local port = Client.get_port()
+    local success, err = self.udp:setpeername(self.address, port)
     if success then
-        self.port = setting.udp_port
-    else
-        log.debug("connect err "..err)
-        utils.chat("UDP Connect Error "..err, 'always')
+        self.port = port
     end
     return success ~= nil
 end

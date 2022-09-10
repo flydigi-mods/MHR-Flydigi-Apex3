@@ -8,19 +8,24 @@ local utils = require('utils')
 local c = require('cache')
 local setting = require('setting')
 local Config = require('udp_client')
+local Instruction = Config.Instruction
 
 local udp_path = "./flydigi_apex3/udp_client"
 if utils.os == 'windows' then
     udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."\\udp_client"
 end
-Config.load(udp_path)
+Config.setup(udp_path, json.dump_string, 
+Instruction:new():Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true),
+Instruction:new():Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true),
+function() return setting.udp_port end
+)
+Config.current = Config.get_default()
 
 local action_id
 local action_bank_id
 local player 
 local current_weapon_type
 local current_weapon
-local current_controller_config = Config.get_default()
 
 local function load_weapon(name) 
     return require('weapons.'..name)
@@ -33,21 +38,16 @@ for _, name in ipairs(weapon_modules) do
 end
 
 local function update_controller_config(new_config)
-    if current_controller_config:equal(new_config) then return end
-    local delta = current_controller_config:delta(new_config)
-    if delta:is_nil() then return end
-    if delta:send() then
-       current_controller_config = new_config
-    end
+    Config.current:change(new_config)
 end
 
 local function reset_default_controller_config()
-    update_controller_config(Config.get_default())
+    Config.current:change(Config.get_default())
 end
 
 local function on_update()
     if current_weapon then
-        local new_config = current_weapon:update_controller_config(current_controller_config, action_id, action_bank_id, player)
+        local new_config = current_weapon:update_controller_config(action_id, action_bank_id, player)
         if new_config and not new_config:is_nil() then
             update_controller_config(new_config)
         end
@@ -121,10 +121,22 @@ if d2d then
     end, function()
         if not setting.debug_window then return end
         if not font then return end
+        if action_bank_id == nil or action_bank_id == 0 or action_bank_id == 50 or action_bank_id == 4 then return end
         local str = "Act: "..action_id..", Bank: "..action_bank_id
         if current_weapon then
+            str = str.."\n"..current_weapon.name..", "..tostring(current_weapon.type)
             for k, v in pairs(current_weapon.status) do
                 str = str.."\n"..k..": "..v
+            end
+        end
+        if Config.current then
+            local left = Config.current.left
+            local right = Config.current.right
+            if left ~= nil and not left:is_nil() then
+                str = str.."\nLT: "..left.mode.." "..left.param1.." "..left.param2.." "..left.param3.." "..left.param4
+            end
+            if right ~= nil and not right:is_nil() then
+                str = str.."\nRT: "..right.mode.." "..right.param1.." "..right.param2.." "..right.param3.." "..right.param4
             end
         end
         local w, h = font:measure(str)
@@ -137,6 +149,9 @@ if d2d then
 end
 
 re.on_frame(function() 
+    if Config.current ~= nil then
+        Config.current:tick()
+    end
     if d2d and font then return end
     if setting.debug_window then
         if imgui.begin_window("Flydigi Apex3 Debug", true, 64) then

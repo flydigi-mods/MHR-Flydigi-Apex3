@@ -5,17 +5,44 @@ local setting = require('setting')
 local PlayerManager
 local InputManager
 local ChatManager
+local GamepadApp 
 
 utils.os = 'unix'
 if package.config:sub(1,1) == '\\' then
     utils.os = 'windows'
 end
 
+local rt_code = 2048
+local lt_code = 512
+
+function utils.is_rt_down()
+    return is_trigger_down(rt_code)
+end
+
+function utils.is_lt_down()
+    return is_trigger_down(lt_code)
+end
+
+function is_trigger_down(code)
+    if not GamepadApp then
+        local p = sdk.get_managed_singleton("snow.Pad")
+        if p then
+            GamepadApp = p:get_field("app")
+        end
+    end
+    if not GamepadApp then
+        log.debug("cannot get GamepadApp")
+        return false
+    end
+    gamepad_on = GamepadApp:get_field("_on")
+    return gamepad_on & code ~= 0
+end
+
 function utils.chat(text, always)
     if not setting.debug_window and not always then return end
     if not ChatManager then ChatManager = sdk.get_managed_singleton("snow.gui.ChatManager") end
     if ChatManager then
-        ChatManager:call("reqAddChatInfomation", "Apex3: "..text, 0)
+        ChatManager:call("reqAddChatInfomation", text, 0)
     end
 end
 

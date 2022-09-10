@@ -22,11 +22,11 @@ function weapon:get_status(manager)
     return status
 end
 
-function weapon:get_controller_config(new_state, changed, player, config)
+function weapon:get_controller_config(new_state, changed, player)
     local left = Instruction.left_default()
     local right = Instruction.right_default()
     -- TODO edit right trigger config here
-    return Packet.new(left, right)
+    return Packet:new(left, right)
 end
 
 return weapon

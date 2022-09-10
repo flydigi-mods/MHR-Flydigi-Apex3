@@ -1,7 +1,5 @@
 local Instruction = {}
 
-local setting = require('setting')
-
 Instruction.TriggerType = {Left=1, Right=2}
 Instruction.ModeType = {Normal=0, Resistant=1, Vib=2, Gap=3}
 
@@ -29,11 +27,16 @@ function Instruction:new(mode, param1, param2, param3, param4, trigger)
     return setmetatable(newObj, self)
 end
 
-function Instruction:clone()
+function Instruction:clone(with_after)
     local i = Instruction:new()
     self:Normalize()
     for _, k in ipairs(instruction_keys) do 
         i[k] = self[k]
+    end
+    if self.after ~= nil and with_after then
+        self.after:Normalize()
+        i.after = self.after:clone()
+        i.duration = self.duration
     end
     return i
 end
@@ -79,6 +82,10 @@ end
 
 function Instruction:Params(params)
     if not params then return {self.param1, self.param2, self.param3, self.param4} end
+    if self.setting_after and self.after ~= nil then 
+        self.after:Params(params)
+        return self
+    end
     for i = 1, 4 do 
         if params[i] then
             self['param'..tostring(i)] = params[i]
@@ -87,17 +94,33 @@ function Instruction:Params(params)
     return self
 end
 
-function Instruction:Param(idx, value)
+function Instruction:Param(idx, value, if_mode)
     if idx == nil and value == nil then return nil end
     if idx == nil and value ~= nil then return self end
     local k = 'param'..tostring(idx)
-    if not value then return self[k] end
+    if not value then 
+        if if_mode ~= nil and if_mode ~= self.mode then
+            return 
+        end
+        return self[k] 
+    end
+    if self.setting_after and self.after ~= nil then
+        self.after:Param(idx, value, if_mode)
+        return self
+    end
+    if if_mode ~= nil and if_mode ~= self.mode then
+        return self
+    end
     self[k] = value
     return self
 end
 
 function Instruction:Mode(mode)
     if not mode then return self.mode end
+    if self.setting_after and self.after then
+        self.after:Mode(mode)
+        return self
+    end
     if self.mode ~= mode then
         self:Params({})
         self.mode = mode 
@@ -106,7 +129,11 @@ function Instruction:Mode(mode)
 end
 
 function Instruction:Trigger(trigger)
-    if not trigger then return self.trigger end
+    if trigger == nil then return self.trigger end
+    if self.setting_after and self.after then
+        self.after:Trigger(trigger)
+        return self
+    end
     self.trigger = trigger
     return self
 end
@@ -138,13 +165,16 @@ end
 function Instruction:force_param_position()
     if self.mode == Instruction.ModeType.Resistant then return 2 end
     if self.mode == Instruction.ModeType.Vib then return 2 end
-    if self.mode == Instruction.ModeType.Gap then return 2 end
+    if self.mode == Instruction.ModeType.Gap then return 3 end
     return nil
 end
 
 function Instruction:Force(force) -- 0 - 255
     local pos = self:force_param_position()
     if not force then return self:Param(pos) end
+    if self.setting_after and self.after ~= nil then
+        pos = self.after:force_param_position()
+    end
     self:Param(pos, force)
     return self
 end
@@ -171,6 +201,9 @@ end
 function Instruction:Begin(distance) -- 0 - 200
     local pos = self:begin_position()
     if not distance then return self:Param(pos) end
+    if self.setting_after and self.after ~= nil then
+        pos = self.after:begin_position()
+    end
     self:Param(pos, distance)
     return self
 end
@@ -197,28 +230,23 @@ function Instruction:BeginOffset(offset)
     return self:Begin(self:Begin() + offset)
 end
 
+function Instruction:BeginDefault()
+    local default = Instruction.defaults.right:Begin()
+    if self.trigger == Instruction.TriggerType.Left then
+        default = Instruction.defautls.left:Begin()
+    end
+    return self:Begin(default)
+end
+
 function Instruction:AdaptOutputData(a) -- true false
-    if self.mode == Instruction.ModeType.Resistant then
-        if a == nil then return self.param3 > 0 end
-        self.param3 = a and 1 or 0
+    if a ~= nil then
+        a = a and 1 or 0
     end
-    if a == nil then
-        return false
-    else
-        return self
-    end
+    return self:Param(3, a, Instruction.ModeType.Resistant)
 end
 
 function Instruction:VibForce(force) -- 0 - 200
-    if self.mode == Instruction.ModeType.Vib then
-        if not force then return self.param3 end
-        self.param3 = force
-    end
-    if not force then
-        return
-    else
-        return self
-    end
+    return self:Param(3, force, Instruction.ModeType.Vib)
 end
 
 function Instruction:VibForceMax()
@@ -226,27 +254,11 @@ function Instruction:VibForceMax()
 end
 
 function Instruction:VibFreq(freq) -- 0 - 200
-    if self.mode == Instruction.ModeType.Vib then
-        if not freq then return self.param4 end
-        self.param4 = freq
-    end
-    if not freq then
-        return
-    else
-        return self
-    end
+    return self:Param(4, freq, Instruction.ModeType.Vib)
 end
 
 function Instruction:Length(length) -- 0 - 200
-    if self.mode == Instruction.ModeType.Gap then
-        if not length then return self.param3 end
-        self.param3 = length
-    end
-    if not length then
-        return 
-    else
-        return self
-    end
+    return self:Param(2, length, Instruction.ModeType.Gap)
 end
 
 function Instruction:LengthMax()
@@ -257,16 +269,83 @@ function Instruction:LengthMin()
     return self:Length(LengthMin)
 end
 
-function Instruction:PushBack()
-    return self:Resistant():ForceMax():BeginTop():AdaptOutputData(false)
+function Instruction:After(secs, a)
+    if secs == nil then
+        return
+    end
+    self.duration = secs
+    if a == nil then
+        a = Instruction:new()
+    end
+    self.after = a
+    self.after.trigger = self.trigger
+    self.setting_after = true
+    local mode_str = " nil"
+    if self.after.mode ~= nil then
+        mode_str = " "..self.after.mode
+    end
+    return self
+end
+
+function Instruction:Duration(secs, a)
+    if a == nil then
+        a = Instruction.right_default()
+        if self.trigger == Instruction.TriggerType.Left then
+            a = Instruction.left_default()
+        end
+    end
+    return self:After(secs, a):Before()
+end
+
+function Instruction:Before()
+    self.setting_after = false
+    return self
+end
+
+function Instruction:VibFor(duration, after)
+    return self:Vib():Duration(duration, after)
+end
+
+function Instruction:get_setting_obj()
+    if self.setting_after and self.after ~= nil then
+        return self.after
+    end
+    return self
+end
+
+function Instruction:next(now)
+    if now == nil then return nil end
+    if self.after == nil or self.duration == nil or self.send_at == nil then return nil end
+    if now >= self.send_at + self.duration then
+        return self.after
+    end
+    return nil
+end
+
+function Instruction:mark_sent()
+    if self.send_at ~= nil then return end
+    self.send_at = Instruction.client.socket.gettime()
+end
+
+function Instruction:PushBack(duration, after)
+    if duration == nil then duration = 0.5 end
+    return self:Resistant():ForceMax():BeginTop():AdaptOutputData(false):Duration(duration, after)
 end
 
 function Instruction.left_default()
-    return Instruction:new():Trigger(Instruction.TriggerType.Left):Resistant():ForceMax():Begin(setting.left_default_lock_pos)
+    return Instruction.defaults.left:clone():Left()
 end
 
 function Instruction.right_default()
-    return Instruction:new():Trigger(Instruction.TriggerType.Right):Resistant():ForceMax():Begin(setting.right_default_lock_pos)
+    return Instruction.defaults.right:clone():Right()
+end
+
+function Instruction.new_left()
+    return Instruction:new():Left()
+end
+
+function Instruction.new_right()
+    return Instruction:new():Right()
 end
 
 local function normalize_param(value, min, max)
@@ -278,7 +357,7 @@ end
 
 function Instruction:Normalize()
     if self:is_nil() then 
-        self:Parmas({})
+        self:Params({})
     else
         local force = self:Force()
         local new_force = normalize_param(force, ForceMin, ForceMax)
@@ -304,5 +383,10 @@ function Instruction:Normalize()
     end
     return self
 end
+
+Instruction.defaults = {
+    left = Instruction:new():Trigger(Instruction.TriggerType.Left):Resistant():ForceMax():BeginHalf(),
+    right = Instruction:new():Trigger(Instruction.TriggerType.Right):Resistant():ForceMax():BeginHalf()
+}
 
 return Instruction
