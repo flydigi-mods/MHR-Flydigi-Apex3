@@ -4,13 +4,13 @@ Instruction.TriggerType = {Left=1, Right=2}
 Instruction.ModeType = {Normal=0, Resistant=1, Vib=2, Gap=3}
 
 local ForceMax = 255
-local ForceMin = 0
+local ForceMin = 1
 local LengthMax = 200
 local LengthMin = 0
 local VibMax = 200
-local VibMin = 0
+local VibMin = 1
 local FreqMax = 200
-local FreqMin = 0
+local FreqMin = 1
 
 local instruction_keys = {'trigger', 'mode', 'param1', 'param2', 'param3', 'param4'}
 
@@ -253,6 +253,10 @@ function Instruction:VibForceMax()
     return self:VibForce(VibMax)
 end
 
+function Instruction:VibForceMin()
+    return self:VibForce(VibMin)
+end
+
 function Instruction:VibFreq(freq) -- 0 - 200
     return self:Param(4, freq, Instruction.ModeType.Vib)
 end
@@ -329,7 +333,7 @@ end
 
 function Instruction:PushBack(duration, after)
     if duration == nil then duration = 0.5 end
-    return self:Resistant():ForceMax():BeginTop():AdaptOutputData(false):Duration(duration, after)
+    return self:Vib():BeginTop():ForceMax():VibForceMax():VibFreq(2):Duration(duration, after)
 end
 
 function Instruction.left_default()

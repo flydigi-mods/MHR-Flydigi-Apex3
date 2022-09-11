@@ -103,6 +103,10 @@ function weapon:get_controller_config(new_state, changed, player)
             if Packet.current.right.mode == Instruction.ModeType.Vib and Packet.current.right.after ~= nil and Packet.current.right.after.mode ~= Instruction.ModeType.Vib then 
                 right = Instruction.new_right() 
             end
+            if new_state.action_id == 404 then
+                utils.chat("弹刀")
+                right = Instruction.new_right():PushBack()
+            end
             if new_state.action_id == shenweizidongzhaojia then
                 utils.chat("神威自动招架")
                 right = Instruction.new_right():PushBack()
@@ -120,40 +124,36 @@ function weapon:get_controller_config(new_state, changed, player)
                 right = Instruction.right_default()
             end
             if self.current_state.action_id ~= 140 and (new_state.action_id == dahuixuan or new_state.action_id == wushuangzhan) then
-                right = Instruction.new_right():VibFor(0.6):VibForce(80):VibFreq(100):BeginTop()
+                right = Instruction.new_right():VibFor(0.6):VibForceMin():VibFreq(100):BeginDefault():BeginOffset(-10)
             end
             if new_state.action_id == feitidouge1 then
                 utils.chat("兜割"..new_state.gauge_level)
-                right = Instruction.new_right():VibFor(1.8):VibForce(new_state.gauge_level * 30):VibFreq(new_state.gauge_level * 10):BeginTop()
+                right = Instruction.new_right():VibFor(1.8):VibForceMin():VibFreq(new_state.gauge_level * 10):BeginDefault():BeginOffset(-10)
             end
             if new_state.action_id == shenweinadao then
                 utils.chat("神威纳刀")
                 before_sacred_gauge_lv = new_state.gauge_level
-                right = Instruction.new_right():Resistant():BeginDefault():BeginOffset(20):Force(150)
+                right = Instruction.new_right():Vib():VibForceMin():VibFreq(10):BeginDefault():BeginOffset(-10):After(0.1):Resistant():BeginDefault():BeginOffset(20):ForceMax()
             end
             if self.current_state.action_id == shenweinadao and new_state.action_id == shenweixuli then
                 utils.chat("神威纳刀完成"..before_sacred_gauge_lv.." -> "..new_state.gauge_level)
-                if before_sacred_gauge_lv > new_state.gauge_level then
-                    right = Instruction.new_right():Vib():VibForce(20):VibFreq(20):ForceMin():BeginDefault():BeginOffset(-30):After(0.2):Resistant():ForceMax():BeginBottom()
-                else
-                    right = Instruction.new_right():Resistant():ForceMax():BeginBottom(-20)
-                end
+                right = Instruction.new_right():Normal()
             end
             if new_state.action_id == shenweixuliwanchen then
                 right = Instruction.new_right()
             end
             if new_state.action_id == 106 then
                 utils.chat("气刃斩1")
-                right = Instruction.new_right():VibFor(0.2):VibForce(5):VibFreq(5):ForceMin():BeginTop(1)
+                right = Instruction.new_right():VibFor(0.2):VibForce(1):VibFreq(5):ForceMin():BeginDefault():BeginOffset(-10)
             end
             if new_state.action_id == 107 or new_state.action_id == 110 then
                 utils.chat("气刃斩2")
-                right = Instruction.new_right():VibFor(0.2):VibForce(15):VibFreq(10):ForceMin():BeginTop(1)
+                right = Instruction.new_right():VibFor(0.2):VibForce(5):VibFreq(20):ForceMin():BeginDefault():BeginOffset(-10)
             end
             if (new_state.action_id == 108 or new_state.action_id == 111 or new_state.action_id == 316 or new_state.action_id == 317) and 
             (self.current_state.action_id ~= 108 and self.current_state.action_id ~= 111 and self.current_state.action_id ~= 316 and self.current_state.action_id ~= 317) then
                 utils.chat("气刃斩3 "..self.current_state.action_id.." -> "..new_state.action_id)
-                right = Instruction.new_right():VibFor(0.2):VibForce(40):VibFreq(30):ForceMin():BeginTop()
+                right = Instruction.new_right():VibFor(0.2):VibForce(5):VibFreq(40):ForceMin():BeginDefault():BeginOffset(-10)
             end
         end
 
@@ -162,15 +162,17 @@ function weapon:get_controller_config(new_state, changed, player)
             -- 神威蓄力
             if changed.gauge_level then
                 utils.chat("气刃消耗到"..before_sacred_gauge_lv.." -> "..new_state.gauge_level)
-                local d = Instruction.new_right():Resistant():ForceMax():BeginBottom(-20)
-                if new_state.gauge_level == 2 then
-                    right = Instruction.new_right():VibFor(0.3, d):VibForce(10):VibFreq(20):ForceMin():BeginDefault()
-                end
-                if new_state.gauge_level == 1 then
-                    right = Instruction.new_right():VibFor(0.3, d):VibForce(30):VibFreq(50):ForceMin():BeginDefault()
-                end
-                if new_state.gauge_level == 0 then
-                    right = Instruction.new_right():Vib():VibForceMax():VibFreq(4):ForceMin():BeginDefault():After(0.5):Vib():VibForce(1):VibFreq((before_sacred_gauge_lv - 1) * 50):ForceMin():BeginDefault()
+                if new_state.gauge_level < before_sacred_gauge_lv - 1 then
+                    local d = Instruction.new_right():Resistant():ForceMax():BeginBottom(-20)
+                    if new_state.gauge_level == 2 then
+                        right = Instruction.new_right():VibFor(0.2, d):VibForceMin():VibFreq(20):ForceMin():BeginDefault():BeginOffset(-10)
+                    end
+                    if new_state.gauge_level == 1 then
+                        right = Instruction.new_right():VibFor(0.2, d):VibForceMin():VibFreq(100):ForceMin():BeginDefault():BeginOffset(-10)
+                    end
+                    if new_state.gauge_level == 0 then
+                        right = Instruction.new_right():Vib():VibForceMax():VibFreq(20):ForceMin():BeginDefault():BeginOffset(-10):After(0.1 * (before_sacred_gauge_lv - 1)):Vib():VibForce(1):VibFreq((before_sacred_gauge_lv - 1) * 50):ForceMin():BeginDefault()
+                    end
                 end
             end
         end
