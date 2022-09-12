@@ -1,6 +1,7 @@
 local BaseWeapon = {}
 local utils = require('utils')
 local setting = require('setting')
+local c = require('cache')
 
 
 function BaseWeapon:get_status(manager)
@@ -49,6 +50,8 @@ function BaseWeapon:status_update(args)
         return
     end
     manager = utils.get_manager(args)
+    local isMasterPlayer = c.player_is_master_method:call(manager)
+    if not isMasterPlayer then return end
     status = self:get_status(manager)
     local changed = false
     for k, v in pairs(status) do 
