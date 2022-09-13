@@ -41,9 +41,11 @@ jobs:
           sed -i -e "s/developing/${version}/g" flydigi/flydigi_apex3/version.lua
       - run: |
           mkdir -p stage/reframework/autorun
+          mkdir -p stage/reframework/data
           mkdir output
           cp flydigi/flydigi_apex3.lua stage/reframework/autorun/flydigi_apex3.lua
           cp -R flydigi/flydigi_apex3 stage/reframework/autorun/flydigi_apex3
+          cp -R flydigi/data stage/reframework/data/flydigi_apex3
       - uses: montudor/action-zip@v1
       - working-directory: stage
         run: zip -qq -r ../output/flydigi_apex3.zip .

@@ -1,13 +1,8 @@
-local weapon_modules = {
-    'great_sword', 'long_sword', 'short_sword', 'dual_blades',
-    'lance', 'gun_lance', 'hammer', 'horn', 'switch_axe', 'charge_axe',
-    'insect_glaive', 'light_bowgun', 'heavy_bowgun', 'bow'
-}
-
 local utils = require('utils')
 local c = require('cache')
 local setting = require('setting')
 local Config = require('udp_client')
+local BaseWeapon = require('base_weapon')
 local Instruction = Config.Instruction
 
 local udp_path = "./flydigi_apex3/udp_client"
@@ -28,16 +23,6 @@ local player
 local current_weapon_type
 local current_weapon
 
-local function load_weapon(name) 
-    return require('weapons.'..name)
-end
-
-local weapons = {}
-for _, name in ipairs(weapon_modules) do
-    local weapon = load_weapon(name)
-    weapons[weapon.type] = weapon
-end
-
 local function update_controller_config(new_config)
     Config.current:change(new_config)
 end
@@ -56,6 +41,35 @@ local function on_update()
 end
 
 reset_default_controller_config()
+
+local function get_current_weapon()
+    return BaseWeapon.get_weapon(current_weapon_type)
+end
+
+local function find_current_weapon_type() 
+    local player_def = player:get_type_definition():get_name()
+    if player_def == "PlayerLobbyBase" then 
+        if current_weapon then
+            current_weapon.on_update = nil
+            current_weapon = nil
+            reset_default_controller_config()
+        end
+        current_weapon_type = nil
+        return
+    end 
+    if player_def ~= current_weapon_type then
+        current_weapon_type = player_def
+        if current_weapon then
+            current_weapon.on_update = nil
+        end
+        current_weapon = get_current_weapon()
+        reset_default_controller_config()
+        if current_weapon then
+            current_weapon.on_update = on_update
+            utils.chat("Weapon "..current_weapon.name)
+        end
+    end
+end
 
 sdk.hook(c.motion_control_late_update_method,
 function(args)
@@ -77,45 +91,28 @@ function(args)
 
     action_id = new_action_id
     action_bank_id = new_action_bank_id
-    local weapon_type = c.player_weapon_type_field:get_data(player)
 
-    if weapon_type == nil and current_weapon_type == nil then
-        return
-    end
-    if weapon_type == nil and current_weapon_type then
-        if current_weapon then
-            current_weapon.on_update = nil
-            current_weapon = nil
-            reset_default_controller_config()
-        end
-        current_weapon_type = nil
-        return
-    end
-    if weapon_type ~= current_weapon_type then
-        current_weapon_type = weapon_type
-        if current_weapon then
-            current_weapon.on_update = nil
-        end
-        current_weapon = weapons[current_weapon_type]
-        reset_default_controller_config()
-        if current_weapon then
-            current_weapon.on_update = on_update
-            if not current_weapon.hooked then
-                current_weapon:hook()
-            end
-            utils.chat("Weapon "..current_weapon.name.." "..tostring(current_weapon_type))
-        else
-            return
-        end
-    end
+    find_current_weapon_type()
+    
     if not current_weapon then
         return
     end
-
+    
     on_update()
 end,
 function(retval) return retval end
 )
+
+sdk.hook(c.player_update_method, function(args)
+    if not setting.enable then return end
+    local p = utils.get_manager(args)
+    local isMasterPlayer = c.player_is_master_method:call(p)
+    if not isMasterPlayer then return end
+    player = p
+    find_current_weapon_type()
+    if not current_weapon then return end
+    current_weapon:status_update(player)
+end, function(retval) return retval end)
 
 local font = nil
 if d2d then
@@ -124,23 +121,29 @@ if d2d then
     end, function()
         if not setting.debug_window then return end
         if not font then return end
-        local str = "Act: "..action_id..", Bank: "..action_bank_id
-        if current_weapon then
-            str = str.."\n"..current_weapon.name..", "..tostring(current_weapon.type)
-            for k, v in pairs(current_weapon.status) do
-                str = str.."\n"..k..": "..v
+        if player == nil then return end
+        local str = "In Lobby"
+        if player:get_type_definition():get_name() ~= "PlayerLobbyBase" then 
+            str = "Act: "..action_id..", Bank: "..action_bank_id
+            if current_weapon_type then
+                str = str.."\n"..current_weapon_type
+                if current_weapon then
+                    for k, v in pairs(current_weapon.status) do
+                        str = str.."\n"..k..": "..v
+                    end
+                end
             end
-        end
-        if Config.current then
-            local left = Config.current.left
-            local right = Config.current.right
-            if left ~= nil and not left:is_nil() then
-                str = str.."\nLT: "..left.mode.." "..left.param1.." "..left.param2.." "..left.param3.." "..left.param4
+            if Config.current then
+                local left = Config.current.left
+                local right = Config.current.right
+                if left ~= nil and not left:is_nil() then
+                    str = str.."\nLT: "..left.mode.." "..left.param1.." "..left.param2.." "..left.param3.." "..left.param4
+                end
+                if right ~= nil and not right:is_nil() then
+                    str = str.."\nRT: "..right.mode.." "..right.param1.." "..right.param2.." "..right.param3.." "..right.param4
+                end
             end
-            if right ~= nil and not right:is_nil() then
-                str = str.."\nRT: "..right.mode.." "..right.param1.." "..right.param2.." "..right.param3.." "..right.param4
-            end
-        end
+        end 
         local w, h = font:measure(str)
         local screen_w, screen_h = d2d.surface_size()
         local margin = 40

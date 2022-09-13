@@ -46,6 +46,10 @@ function utils.chat(text, always)
     end
 end
 
+function utils.end_with(str, ending)
+    return ending == "" or str:sub(-#ending) == ending
+end
+
 function utils.deepcompare(t1,t2,ignore_mt)
     local ty1 = type(t1)
     local ty2 = type(t2)

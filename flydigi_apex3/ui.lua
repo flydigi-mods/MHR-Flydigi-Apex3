@@ -2,6 +2,7 @@ local setting = require("setting")
 local version = require("version")
 local Packet = require("udp_client")
 local utils = require('utils')
+local BaseWeapon = require("base_weapon")
 local Instruction = Packet.Instruction
 
 local default_lock_pos_min = 50
@@ -53,6 +54,12 @@ local function controller_default_changed()
         Instruction:new():Resistant():ForceMax():Begin(setting.right_default_lock_pos)
     )
     Packet.get_default():send()
+end
+
+local function reload_weapon_configs()
+    for _, w in pairs(BaseWeapon.weapons) do
+        w:reload_configs()
+    end
 end
 
 re.on_frame(function()
@@ -149,6 +156,8 @@ if modUI then
         _, setting.udp_port = modUI.Slider("飞智空间站端口号", setting.udp_port, 1024, 65535)
         local reset_default = modUI.Button("恢复默认设置")
         if reset_default then setting.reset_default() end
+        local reload_w = modUI.Button("重载武器配置")
+        if reload_w then reload_weapon_configs() end
         if testing_delay_begin_time == nil then
             local to_test_delay = modUI.Button("测试扳机配置延迟")
             if to_test_delay then 
@@ -219,6 +228,8 @@ re.on_draw_ui(function()
         end
         local reset_default = imgui.button("Reset Default")
         if reset_default then setting.reset_default() end
+        local reload_w = imgui.button("Reload Weapon Configs")
+        if reload_w then reload_weapon_configs() end
         if version then
             imgui.text("Version: "..version)
         end

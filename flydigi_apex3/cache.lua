@@ -9,7 +9,10 @@ c.motion_control_old_motion_id_field = c.motion_control_type:get_field("_OldMoti
 c.motion_control_old_bank_id_field = c.motion_control_type:get_field("_OldBankID")
 
 c.player_is_master_method = c.player_type:get_method("isMasterID")
-c.player_weapon_type_field = c.player_type:get_field("_playerWeaponType")
+c.player_weapon_type_field = c.player_type:get_field("_playerWeaponType") -- type userdata
+c.player_update_method = c.player_type:get_method("update") -- type userdata
+local a = c.player_type:get_field('ac') -- type table
+
 -- c.player_check_muteki_method = c.player_type:get_method("checkMuteki")
 -- c.player_check_super_armor_method = c.player_type:get_method("checkSuperArmor")
 -- c.player_check_hyper_armor_method = c.player_type:get_method("checkHyperArmor")
