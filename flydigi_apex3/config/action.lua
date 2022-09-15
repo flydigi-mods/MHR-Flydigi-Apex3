@@ -98,6 +98,7 @@ function Filter:new(dict)
             newObj[k] = v
         end
     end
+    if newObj.op == nil then newObj.op = "=" end
     self.__index = self
     return setmetatable(newObj, self)
 end
@@ -176,6 +177,7 @@ function Filter:match(prev, now, changed)
     end
     local f = Filter.get_op_func(self.op)
     if f == nil then return false end
+    if type(self.value) == 'nil' return false end
     local ok, r = pcall(f, state[key], self.value)
     if not ok then
         log.debug("op func failed "..self.op.." "..state[key].." "..self.value) 
