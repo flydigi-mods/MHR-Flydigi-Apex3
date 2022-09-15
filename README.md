@@ -27,8 +27,12 @@
 2. [ModOptionsMenu (可选)](https://www.nexusmods.com/monsterhunterrise/mods/1292)
 3. [reframework-d2d (可选)](https://www.nexusmods.com/monsterhunterrise/mods/134)
 
-下载此 [mod 单独的压缩包](https://github.com/songchenwen/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3.zip)，解压缩并放到怪猎安装目录。
+下载[此 mod 单独的压缩包](https://github.com/songchenwen/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3.zip)，解压缩并放到怪猎安装目录。
 
 ## 使用
 
 需要飞智空间站v2.2.0.2版本及以上，打开自适应扳机地平线模式，并保持后台运行
+
+## 自定义
+
+参考[自定义文档](https://github.com/songchenwen/MHR-Flydigi-Apex3/blob/master/docs/Configuration.md)
