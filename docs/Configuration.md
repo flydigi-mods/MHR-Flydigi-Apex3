@@ -57,7 +57,10 @@
 
 其中 `in` 和 `not in` 会比其他 `op` 更耗性能，请优先使用其他 `op`
 
-对于在 `Debug Window` 中显示为 `true` 或 `false` 的 `key`，只支持 `"op": "="`, 并且 `value` 只能写 `true` 或 `false`
+对于在 `Debug Window` 中显示为 `true` 或 `false` 的 `key`， `op` 只支持 `=` 和 `~=`, 并且 `value` 只能写 `true` 或 `false`。
+
+对于在 `Debug Window` 中显示为其他字符串的 `key`，`op` 只支持 `=` 和 `~=`, 并且 `value` 只能写字符串类型。
+
 
 ## 游戏内信息的获取
 
@@ -72,6 +75,8 @@
 武器名称下面会显示当前武器所特有的一些状态字段。
 
 最下面 `LT` 和 `RT` 开头的两行，会显示当前两个扳机所对应的配置
+
+![](img/debug_window.jpg)
 
 ## 编辑配置文件
 

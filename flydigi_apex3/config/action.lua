@@ -148,11 +148,21 @@ local function op_in(value, range)
             return false
         end
     end
-    if type(range) == 'number' then
-        return value == range
+    if type(value) == 'number' then
+        if type(range) == 'number' then
+            return value == range
+        end
+        if type(range) == 'string' then
+            return value == tonumber(range)
+        end
     end
-    if type(range) == 'string' then
-        return value == tonumber(range)
+    if type(value) == 'string' then
+        if type(range) == 'number' then
+            return value == tostring(range)
+        end
+        if type(range) == 'string' then
+            return value == range
+        end
     end
     return false
 end
@@ -177,7 +187,7 @@ function Filter:match(prev, now, changed)
     end
     local f = Filter.get_op_func(self.op)
     if f == nil then return false end
-    if type(self.value) == 'nil' return false end
+    if type(self.value) == 'nil' then return false end
     local ok, r = pcall(f, state[key], self.value)
     if not ok then
         log.debug("op func failed "..self.op.." "..state[key].." "..self.value) 

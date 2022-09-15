@@ -50,6 +50,17 @@ function utils.end_with(str, ending)
     return ending == "" or str:sub(-#ending) == ending
 end
 
+function utils.start_with(str, prefix)
+    return prefix == "" or str:sub(0, #prefix) == prefix
+end
+
+function utils.trim_prefix(str, prefix)
+    if utils.start_with(str, prefix) then
+        return str:sub(#prefix + 1)
+    end
+    return str
+end
+
 function utils.deepcompare(t1,t2,ignore_mt)
     local ty1 = type(t1)
     local ty2 = type(t2)
@@ -68,6 +79,56 @@ function utils.deepcompare(t1,t2,ignore_mt)
     if v1 == nil or not utils.deepcompare(v1,v2) then return false end
     end
     return true
+end
+
+function utils.all_fields_for_type(t)
+    local fields = t:get_fields()
+    local pt = t:get_parent_type()
+    if pt ~= nil then
+        local pfs = utils.all_fields_for_type(pt)
+        for _, f in ipairs(pfs) do
+            table.insert(fields, f)
+        end
+    end
+    return fields
+end
+
+function utils.dump_obj(obj, filepath)
+    if not sdk.is_managed_object(obj) then
+        return
+    end
+    local d = {}
+    local t = obj:get_type_definition()
+    local fields = utils.all_fields_for_type(t)
+    for _, f in ipairs(fields) do
+        local name = f:get_name()
+        local is_static = f:is_static()
+        d[name] = {
+            is_static = is_static,
+            type = f:get_type():get_full_name()
+        }
+        local value
+        if is_static then
+            value = f:get_data(nil)
+        else
+            value = f:get_data(obj)
+        end
+        if value ~= nil and type(value) == "userdata" then
+            if not sdk.is_managed_object(value) then
+                value = sdk.to_managed_object(value)
+            end
+            if value ~= nil then
+                value = utils.dump_obj(value)
+            end
+        end
+        d[name]['value'] = value
+    end
+    if filepath == nil then
+        log.debug(json.dump_string(d, 2))
+    else
+        json.dump_file(filepath, d, 4)
+    end
+    return d
 end
 
 function utils.get_manager(args) 
