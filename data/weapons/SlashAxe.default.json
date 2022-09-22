@@ -1,8 +1,813 @@
 {
     "actions": [
         {
-            "name": "挨打",
+            "name": "切换",
             "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 120
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "in",
+                    "value": [179,180]
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 121
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		 {
+            "name": "攻击切换",
+            "trigger": {
+                "trigger": "right",
+               "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "changed": true,
+                    "key": "action_id",
+                    "op": "=",
+                    "value": 307
+                }
+            ]
+        },
+		{
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 323
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 316
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 302
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 102
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+            {
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 111
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		 {
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 106
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "攻击切换",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 350
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		
+		{
+            "name": "变形纵斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 124
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "斧横扫",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 2.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 122
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "剑变形二连斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 30, 100, 0],
+                "duration": 2.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 152
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "飞翔龙斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 60, 60, 0],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": [160,161]
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "飞翔龙斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 60, 60, 0],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 161
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "斩击充能",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 60, 60, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 164
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "飞",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 99
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+            "name": "二段飞",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 107
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔上1",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 5
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔上2",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 15
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔上+疾翔上",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 9
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔前1",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 1
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔前+疾翔前",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 16
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "疾翔上＋疾翔前",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 100, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 98
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "迅速切换",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 250
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "迅速切换2",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 251
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 4
+                }
+				
+            ]
+        },
+		{
+		"name": "迅速切换3",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 619
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+		"name": "迅速切换4",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 629
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+		"name": "金刚连斧",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 10, 255, 50],
+                "duration": 2.8,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 157
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		 {
+            "name": "弹刀",
+            "trigger": {
+                "trigger": "right",
                 "mode": 2,
                 "params": [0, 255, 200, 2],
                 "duration": 0.5,
@@ -12,156 +817,25 @@
             },
             "filters": [
                 {
-                    "key": "action_bank_id",
                     "changed": true,
-                    "op": "=",
-                    "value": 1
-                }
-            ]
-        }, 
-        {
-            "name": "属性充填反击",
-            "trigger": {
-                "trigger": "left",
-                "mode": 2,
-                "params": [0, 1, 200, 30],
-                "duration": 0.1,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
                     "key": "action_id",
-                    "changed": true,
                     "op": "=",
-                    "value": 181
+                    "value": 404
                 }
             ]
         },
-        {
-            "name": "属性解放爆裂",
+		{
+		"name": "0",
             "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [0, 1, 200, 60],
-                "duration": 0.4,
+				"trigger": "left",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
                 "after": {
                     "mode": "default"
                 }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 184
-                }
-            ]
-        },
-        {
-            "name": "飞翔龙剑",
-            "trigger": {
-                "trigger": "left",
-                "mode": 2,
-                "params": [0, 1, 200, 30],
-                "duration": 0.2,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 160
-                }
-            ]
-        },
-        {
-            "name": "斩击充能",
-            "trigger": {
-                "trigger": "left",
-                "mode": 0,
-                "duration": 0.4,
-                "after": {
-                    "mode": "default"
-                }                
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 164
-                }
-            ]
-        },
-        {
-            "name": "铁虫丝步伐",
-            "trigger": {
-                "trigger": "left",
-                "mode": 0,
-                "duration": 0.5,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "in",
-                    "value": [186, 187]
-                }
-            ]
-        },
-        {
-            "name": "金刚连斧",
-            "trigger": {
-                "trigger": "left",
-                "mode": 2,
-                "params": [20, 1, 200, 30],
-                "duration": 0.5,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "in",
-                    "value": [157, 166]
-                }
-            ]
-        },
-        {
-            "name": "手动装填",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [0, 255, 200, 30]
-            },
-            "filters": [
-                {
-                    "prev": true,
-                    "key": "mode",
-                    "op": "=",
-                    "value": 0
-                },
-                {
-                    "key": "action_id",
-                    "op": "<",
-                    "value": 10
-                },
-                {
-                    "key": "bottle",
-                    "op": "<",
-                    "value": 38
-                }
-            ]
+            }
+           
         }
     ]
+    
 }
