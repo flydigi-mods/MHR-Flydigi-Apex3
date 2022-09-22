@@ -22,6 +22,9 @@ local function generate_status_func(t, name)
 end
 
 function BaseWeapon:get_status(player)
+    if self.status_dict == nil then
+        return {}
+    end
     local s = {}
     local t = player:get_type_definition()
     for k, v in pairs(self.status_dict) do
