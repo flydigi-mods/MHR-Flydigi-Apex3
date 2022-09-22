@@ -11,7 +11,7 @@ local function config(prev, now, changed)
             return Packet.get_default()
         end
     end
-    if changed.action_id and now.action_id == 404 then
+    if changed.action_id and now.action_id == 404 and prev.action_bank_id == 100 then
         return Packet:new(nil, Instruction.new_right():PushBack())
     end
 end
