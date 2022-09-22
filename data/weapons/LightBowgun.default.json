@@ -1,7 +1,7 @@
 {
     "actions": [
 	{
-            "name": "射击",
+            "name": "lv1通常弹",
             "trigger": {
 				"trigger": "right",
                 "mode": 3,
@@ -17,6 +17,195 @@
                     "changed": true,
                     "op": "=",
                     "value": 132
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "lv2通常弹+lv1贯穿弹+lv1散弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 116
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "lv2通常弹+lv1贯穿弹+lv1散弹+lv1放散弹+回复弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 11
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "lv2放散弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 1, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 128
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+			{
+            "name": "lv1穿甲榴弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 40, 200, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 129
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+			{
+            "name": "lv1毒弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 40, 200, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 122
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "lv1减气弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 40, 200, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 119
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "lv1斩裂弹",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 40, 200, 0],
+                "duration": 1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 119
                 },
 				{
                     "key": "action_bank_id",
