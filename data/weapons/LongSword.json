@@ -87,12 +87,6 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 404
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100,
-                    "prev": true
                 }
             ]
         },
@@ -113,12 +107,6 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 173
-                },
-                {
-                    "key": "action_bank_id",
-                    "prev": true,
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -139,11 +127,6 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 156
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         }, 
@@ -164,11 +147,6 @@
                     "changed": true,
                     "op": "=",
                     "value": 106
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -189,11 +167,6 @@
                     "changed": true,
                     "op": "in",
                     "value": [107, 110]
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -220,11 +193,6 @@
                     "prev": true,
                     "op": "not in",
                     "value": [108, 111, 316, 317]
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -251,11 +219,6 @@
                     "prev": true,
                     "op": "~=",
                     "value": 140
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -276,11 +239,6 @@
                     "changed": true,
                     "op": "=",
                     "value": 133
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -297,11 +255,6 @@
                     "changed": true,
                     "op": "=",
                     "value": 161
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -324,11 +277,6 @@
                     "prev": true,
                     "op": "=",
                     "value": 161
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -366,11 +314,6 @@
                     "changed": true,
                     "op": "=",
                     "value": 1
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },
@@ -408,11 +351,6 @@
                     "changed": true,
                     "op": "=",
                     "value": 0
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
                 }
             ]
         },

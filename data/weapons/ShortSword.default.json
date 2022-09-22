@@ -1,76 +1,114 @@
 {
     "actions": [
         {
-            "name": "神威纳刀防御失败",
+            "name": "防御",
             "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [0, 255, 200, 2],
-                "duration": 0.5,
+				"trigger": "right",
+                "mode": 1,
+                "params": [0, 50, 1, 0],
+				 "duration": 0.1,
                 "after": {
                     "mode": "default"
                 }
             },
             "filters": [
                 {
+                    "key": "action_id",
                     "changed": true,
-                    "key": "action_bank_id",
                     "op": "=",
-                    "value": 1
+                    "value": 430
                 },
-                {
-                    "prev": true,
+				{
                     "key": "action_bank_id",
+                    "changed": false,
                     "op": "=",
                     "value": 100
-                },
-                {
-                    "prev": true,
-                    "key": "action_id",
-                    "op": ">=",
-                    "value": 161 
-                },
-                {
-                    "prev": true,
-                    "key": "action_id",
-                    "op": "<=",
-                    "value": 168
                 }
+				
             ]
         },
-        {
-            "name": "特殊纳刀防御失败",
+		{
+            "name": "防御",
             "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [0, 255, 200, 2],
-                "duration": 0.5,
+				"trigger": "right",
+                "mode": 1,
+                "params": [0, 50, 1, 0],
+				 "duration": 0.1,
                 "after": {
                     "mode": "default"
                 }
             },
             "filters": [
                 {
+                    "key": "action_id",
                     "changed": true,
-                    "key": "action_bank_id",
                     "op": "=",
-                    "value": 1
+                    "value": 447
                 },
-                {
-                    "prev": true,
+				{
                     "key": "action_bank_id",
+                    "changed": false,
                     "op": "=",
                     "value": 100
-                },
-                {
-                    "prev": true,
-                    "key": "action_id",
-                    "op": "in",
-                    "value": [156, 152]
                 }
+				
             ]
         },
-        {
+		{
+            "name": "防御",
+            "trigger": {
+				"trigger": "right",
+                "mode": 1,
+                "params": [0, 50, 1, 0],
+				 "duration": 0.1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 448
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "防御",
+            "trigger": {
+				"trigger": "right",
+                "mode": 1,
+                "params": [0, 50, 1, 0],
+				 "duration": 0.1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 303
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		 {
             "name": "弹刀",
             "trigger": {
                 "trigger": "right",
@@ -87,21 +125,15 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 404
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100,
-                    "prev": true
                 }
             ]
         },
-        {
-            "name": "神威自动招架",
+		  {
+            "name": "上捞斩",
             "trigger": {
-                "trigger": "right",
+				"trigger": "right",
                 "mode": 2,
-                "params": [0, 255, 200, 2],
+                "params": [0, 10, 200, 2],
                 "duration": 0.5,
                 "after": {
                     "mode": "default"
@@ -109,51 +141,294 @@
             },
             "filters": [
                 {
-                    "changed": true,
                     "key": "action_id",
+                    "changed": true,
                     "op": "=",
-                    "value": 173
+                    "value": 121
                 },
-                {
+				{
                     "key": "action_bank_id",
-                    "prev": true,
+                    "changed": false,
                     "op": "=",
                     "value": 100
                 }
+				
             ]
         },
-        {
-            "name": "特殊纳刀",
+		{
+            "name": "蓄力斩后撤步",
             "trigger": {
-                "trigger": "right",
+				"trigger": "right",
                 "mode": 2,
-                "params": [0, 255, 200, 2],
-                "duration": 0.3,
+                "params": [0, 1, 100, 60],
+                 "duration": 2,
                 "after": {
                     "mode": "default"
                 }
             },
             "filters": [
                 {
-                    "changed": true,
                     "key": "action_id",
+                    "changed": true,
                     "op": "=",
-                    "value": 156
+                    "value": 109
                 },
-                {
+				{
                     "key": "action_bank_id",
+                    "changed": false,
                     "op": "=",
                     "value": 100
                 }
+				
             ]
-        }, 
-        {
-            "name": "气刃斩1",
+        },
+		{
+            "name": "蓄力斩斩击",
             "trigger": {
-                "trigger": "right",
+				"trigger": "right",
                 "mode": 2,
-                "params": [70, 1, 1, 5],
-                "duration": 0.2,
+                "params": [0, 1, 255, 35],
+                 "duration": 1.3,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 111
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "防御斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 122
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "垫步",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 1, 90],
+                "duration": 0.1,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 10
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		  {
+            "name": "防御冲刺",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 1, 80],
+                "duration": 0.6,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 441
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "盾攻击",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 1, 255, 0],
+                "duration": 0.6,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 114
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "盾牌冲撞",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.6,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 180
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "突进1",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 20, 80],
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 116
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "突进2",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 410
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "反击突刺1",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 1, 50, 70],
+                "duration": 2,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 104
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "反击突刺2",
+            "trigger": {
+				"trigger": "right",
+                "mode": 3,
+                "params": [0, 0, 100, 0],
                 "after": {
                     "mode": "default"
                 }
@@ -165,255 +440,13 @@
                     "op": "=",
                     "value": 106
                 },
-                {
+				{
                     "key": "action_bank_id",
+                    "changed": false,
                     "op": "=",
                     "value": 100
                 }
-            ]
-        },
-        {
-            "name": "气刃斩2",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [70, 1, 5, 20],
-                "duration": 0.2,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "in",
-                    "value": [107, 110]
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "气刃斩3",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [70, 1, 5, 40],
-                "duration": 0.2,
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "in",
-                    "value": [108, 111, 316, 317]
-                },
-                {
-                    "key": "action_id",
-                    "prev": true,
-                    "op": "not in",
-                    "value": [108, 111, 316, 317]
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "气刃斩4",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "duration": 0.6,
-                "params": [70, 1, 1, 100],
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "in",
-                    "value": [109, 112]
-                },
-                {
-                    "key": "action_id",
-                    "prev": true,
-                    "op": "~=",
-                    "value": 140
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "兜割",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "duration": 1.8,
-                "params": [70, 1, 1, 30],
-                "after": {
-                    "mode": "default"
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 133
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "神威纳刀",
-            "trigger": {
-                "trigger": "right",
-                "mode": 1,
-                "params": [120, 255, 1, 0]
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 161
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "神威纳刀完成",
-            "trigger": {
-                "trigger": "right",
-                "mode": 0,
-                "params": [0, 0, 0, 0]
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "changed": true,
-                    "op": "=",
-                    "value": 163
-                },
-                {
-                    "key": "action_id",
-                    "prev": true,
-                    "op": "=",
-                    "value": 161
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "神威蓄力气刃等级1",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [70, 1, 1, 100],
-                "duration": 0.2,
-                "after": {
-                    "mode": 0,
-                    "params": [0, 0, 0, 0]
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "prev": true,
-                    "op": "~=",
-                    "value": 161
-                },
-                {
-                    "key": "action_id",
-                    "op": ">=",
-                    "value": 163
-                },
-                {
-                    "key": "action_id",
-                    "op": "<=",
-                    "value": 168
-                },
-                {
-                    "key": "gauge_level",
-                    "changed": true,
-                    "op": "=",
-                    "value": 1
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
-            ]
-        },
-        {
-            "name": "神威蓄力气刃等级0",
-            "trigger": {
-                "trigger": "right",
-                "mode": 2,
-                "params": [70, 1, 200, 20],
-                "duration": 0.4,
-                "after": {
-                    "mode": 2,
-                    "params": [80, 1, 1, 150]
-                }
-            },
-            "filters": [
-                {
-                    "key": "action_id",
-                    "prev": true,
-                    "op": "~=",
-                    "value": 161
-                },
-                {
-                    "key": "action_id",
-                    "op": ">=",
-                    "value": 163
-                },
-                {
-                    "key": "action_id",
-                    "op": "<=",
-                    "value": 168
-                },
-                {
-                    "key": "gauge_level",
-                    "changed": true,
-                    "op": "=",
-                    "value": 0
-                },
-                {
-                    "key": "action_bank_id",
-                    "op": "=",
-                    "value": 100
-                }
+				
             ]
         },
 		{
@@ -422,7 +455,7 @@
 				"trigger": "right",
                 "mode": 3,
                 "params": [0, 0, 1, 0],
-                "duration": 1,
+                "duration": 0.5,
                 "after": {
                     "mode": "default"
                 }
@@ -740,7 +773,143 @@
 				
             ]
         },
-	{
+		{
+		"name": "飞影",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 136
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "上冲斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 10, 200, 2],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 113
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "上冲斩",
+            "trigger": {
+				"trigger": "right",
+                "mode": 2,
+                "params": [0, 10, 200, 2],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 113
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+            "name": "风车",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 10, 200, 50],
+                "duration": 2.3,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 135
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+		{
+		"name": "飞身跃入突刺",
+            "trigger": {
+				"trigger": "left",
+                "mode": 2,
+                "params": [0, 1, 255, 1],
+                "duration": 0.5,
+                "after": {
+                    "mode": "default"
+                }
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 112
+                },
+				{
+                    "key": "action_bank_id",
+                    "changed": false,
+                    "op": "=",
+                    "value": 100
+                }
+				
+            ]
+        },
+       
+		{
 		"name": "0",
             "trigger": {
 				"trigger": "left",
@@ -749,8 +918,17 @@
                 "after": {
                     "mode": "default"
                 }
-            }
-           
+            },
+            "filters": [
+                {
+                    "key": "action_id",
+                    "changed": true,
+                    "op": "=",
+                    "value": 0
+                }
+				
+            ]
         }
     ]
+    
 }
