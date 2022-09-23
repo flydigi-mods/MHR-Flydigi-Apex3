@@ -70,6 +70,12 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 404
+                },
+                {
+                    "key": "action_bank_id",
+                    "op": "=",
+                    "value": 100,
+                    "prev": true
                 }
             ]
         },
@@ -830,19 +836,6 @@
                 }
 				
             ]
-        },
-		
-		{
-		"name": "0",
-            "trigger": {
-				"trigger": "left",
-                "mode": 3,
-                "params": [0, 0, 1, 0],
-                "after": {
-                    "mode": "default"
-                }
-            }
-           
         }
     ]
     

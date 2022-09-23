@@ -125,6 +125,12 @@
                     "key": "action_id",
                     "op": "=",
                     "value": 404
+                },
+                {
+                    "key": "action_bank_id",
+                    "op": "=",
+                    "value": 100,
+                    "prev": true
                 }
             ]
         },
