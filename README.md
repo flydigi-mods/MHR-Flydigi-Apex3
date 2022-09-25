@@ -12,7 +12,7 @@
 
 ### 方法1
 
-直接下载 [all in one 的压缩包](https://github.com/songchenwen/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3_all_in_one.zip)，解压缩并放到怪猎安装目录。
+直接下载 [all in one 的压缩包](https://github.com/flydigi-mods/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3_all_in_one.zip)，解压缩并放到怪猎安装目录。
 
 ### 方法2
 
@@ -22,8 +22,8 @@
 2. [ModOptionsMenu (可选)](https://www.nexusmods.com/monsterhunterrise/mods/1292)
 3. [reframework-d2d (可选)](https://www.nexusmods.com/monsterhunterrise/mods/134)
 
-下载[此 mod 单独的压缩包](https://github.com/songchenwen/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3.zip)，解压缩并放到怪猎安装目录。
+下载[此 mod 单独的压缩包](https://github.com/flydigi-mods/MHR-Flydigi-Apex3/releases/latest/download/flydigi_apex3.zip)，解压缩并放到怪猎安装目录。
 
 ## 自定义配置文件
 
-参考[自定义文档](https://github.com/songchenwen/MHR-Flydigi-Apex3/blob/master/docs/Configuration.md)
+参考[自定义文档](https://github.com/flydigi-mods/MHR-Flydigi-Apex3/blob/master/docs/Configuration.md)
