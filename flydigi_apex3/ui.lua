@@ -6,7 +6,7 @@ local BaseWeapon = require("base_weapon")
 local Instruction = Packet.Instruction
 
 local default_lock_pos_min = 50
-local default_lock_pos_max = 150
+local default_lock_pos_max = 200
 
 local begin_test_udp_time = 0
 local test_udp_secs = 5
