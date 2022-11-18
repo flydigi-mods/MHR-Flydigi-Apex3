@@ -9,11 +9,16 @@ local udp_path = "./flydigi_apex3/udp_client"
 if utils.os == 'windows' then
     udp_path = string.match(package.path, "(.-)([^\\/]-)?.lua;"):gsub("lua\\$", "").."\\udp_client"
 end
-Config.setup(udp_path, json.dump_string, 
-Instruction.new_left():Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true),
-Instruction.new_right():Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true),
-function() return setting.udp_port end
-)
+local left_default = Instruction.new_left():Normal()
+local right_default = Instruction.new_right():Normal()
+if setting.left_default_lock then
+    left_default:Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true)
+end
+if setting.right_default_lock then
+    right_default:Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true)
+end
+Config.setup(udp_path, json.dump_string, left_default, right_default,
+function() return setting.udp_port end)
 Config.current = Config.get_default()
 Config.current:send()
 

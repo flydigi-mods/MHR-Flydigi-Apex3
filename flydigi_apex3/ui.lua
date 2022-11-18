@@ -49,10 +49,15 @@ local function reset_controller()
 end
 
 local function controller_default_changed()
-    Packet.set_default(
-        Instruction:new():Resistant():ForceMax():Begin(setting.left_default_lock_pos),
-        Instruction:new():Resistant():ForceMax():Begin(setting.right_default_lock_pos)
-    )
+    local left_default = Instruction.new_left():Normal()
+    local right_default = Instruction.new_right():Normal()
+    if setting.left_default_lock then
+        left_default:Resistant():ForceMax():Begin(setting.left_default_lock_pos):AdaptOutputData(true)
+    end
+    if setting.right_default_lock then
+        right_default:Resistant():ForceMax():Begin(setting.right_default_lock_pos):AdaptOutputData(true)
+    end
+    Packet.set_default(left_default, right_default)
     Packet.get_default():send()
 end
 
@@ -138,8 +143,10 @@ re.on_frame(function()
     end
 end)
 
-local right_default_changed = false
-local left_default_changed = false
+local right_default_lock_pos_changed = false
+local left_default_lock_pos_changed = false
+local left_default_mode_changed = false
+local right_default_mode_changed = false
 if modUI then
     modUI.OnMenu("飞智八爪鱼3", "飞智八爪鱼3手柄支持", function()
         if modUI.version < 1.6 then
@@ -148,9 +155,18 @@ if modUI then
         end
         modUI.Header("飞智八爪鱼3")
         _, setting.enable = modUI.CheckBox("开启自适应扳机", setting.enable, "开启自适应扳机")
-        left_default_changed, setting.left_default_lock_pos = modUI.Slider("左扳机默认扳机锁位置", setting.left_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
-        right_default_changed, setting.right_default_lock_pos = modUI.Slider("右扳机默认扳机锁位置", setting.right_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
-        if left_default_changed or right_default_changed then
+        left_default_mode_changed, setting.left_default_lock = modUI.CheckBox("左扳机开启扳机锁", setting.left_default_lock, "左扳机开启扳机锁")
+        if setting.left_default_lock then
+            left_default_lock_pos_changed, setting.left_default_lock_pos = modUI.Slider("左扳机默认扳机锁位置", setting.left_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
+        end
+        right_default_mode_changed, setting.right_default_lock = modUI.CheckBox("右扳机开启扳机锁", setting.right_default_lock, "右扳机开启扳机锁")
+        if setting.right_default_lock then
+            right_default_lock_pos_changed, setting.right_default_lock_pos = modUI.Slider("右扳机默认扳机锁位置", setting.right_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
+        end
+        if left_default_mode_changed or right_default_mode_changed then
+            modUI.Repaint()
+        end
+        if left_default_mode_changed or right_default_mode_changed or left_default_lock_pos_changed or right_default_lock_pos_changed then
             controller_default_changed()
         end
         _, setting.udp_port = modUI.Slider("飞智空间站端口号", setting.udp_port, 1024, 65535)
@@ -212,9 +228,15 @@ re.on_draw_ui(function()
     if imgui.tree_node("Flydigi Apex3") then
         imgui.indent()
         _, setting.enable = imgui.checkbox("Enable Apex3 Adaptive Trigger", setting.enable)
-        left_default_changed, setting.left_default_lock_pos = imgui.slider_int("Left Trigger Default Lock Position", setting.left_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
-        right_default_changed, setting.right_default_lock_pos = imgui.slider_int("Right Trigger Default Lock Position", setting.right_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
-        if left_default_changed or right_default_changed then
+        left_default_mode_changed, setting.left_default_lock = imgui.checkbox("Left Default Lock", setting.left_default_lock)
+        if setting.left_default_lock then
+            left_default_lock_pos_changed, setting.left_default_lock_pos = imgui.slider_int("Left Trigger Default Lock Position", setting.left_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
+        end
+        right_default_mode_changed, setting.right_default_lock = imgui.checkbox("Right Default Lock", setting.right_default_lock)
+        if setting.right_default_lock then
+            right_default_lock_pos_changed, setting.right_default_lock_pos = imgui.slider_int("Right Trigger Default Lock Position", setting.right_default_lock_pos, default_lock_pos_min, default_lock_pos_max)
+        end
+        if left_default_mode_changed or right_default_mode_changed or left_default_lock_pos_changed or right_default_lock_pos_changed then
             controller_default_changed()
         end
         local port_changed, port = imgui.input_text("Flydigi Space Port", tostring(setting.udp_port))
